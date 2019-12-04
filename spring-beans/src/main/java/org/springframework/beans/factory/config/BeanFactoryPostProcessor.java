@@ -19,6 +19,15 @@ package org.springframework.beans.factory.config;
 import org.springframework.beans.BeansException;
 
 /**
+ * BeanFactory 的后置处理器<br/>
+ * BeanFactoryPostProcessor 允许使用者修改容器中的 bean definitions<br/>
+ * BeanFactoryPostProcessor 可以与 bean definitions 打交道，<br/>
+ * 但是千万不要进行bean实例化（感觉这里应该说的是不要在BeanFactoryPostProcessor进行可能触发bean实例化的操作）。<br/>
+ * 这么做可能会导致bean被提前实例化，会破坏容器造成预估不到的副作用。<br/>
+ * 如果你需要hack到bean实例化过程，请考虑使用BeanPostProcessor。<br/>
+ * <p>
+ * BeanPostProcessor：bean级别的处理，针对某个具体的bean进行处理
+ * <p>
  * Factory hook that allows for custom modification of an application context's
  * bean definitions, adapting the bean property values of the context's underlying
  * bean factory.
@@ -55,9 +64,9 @@ import org.springframework.beans.BeansException;
  *
  * @author Juergen Hoeller
  * @author Sam Brannen
- * @since 06.07.2003
  * @see BeanPostProcessor
  * @see PropertyResourceConfigurer
+ * @since 06.07.2003
  */
 @FunctionalInterface
 public interface BeanFactoryPostProcessor {
@@ -67,6 +76,7 @@ public interface BeanFactoryPostProcessor {
 	 * initialization. All bean definitions will have been loaded, but no beans
 	 * will have been instantiated yet. This allows for overriding or adding
 	 * properties even to eager-initializing beans.
+	 *
 	 * @param beanFactory the bean factory used by the application context
 	 * @throws org.springframework.beans.BeansException in case of errors
 	 */

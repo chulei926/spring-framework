@@ -314,9 +314,9 @@ public class XmlBeanDefinitionReader extends AbstractBeanDefinitionReader {
 	 */
 	public int loadBeanDefinitions(EncodedResource encodedResource) throws BeanDefinitionStoreException {
 		Assert.notNull(encodedResource, "EncodedResource must not be null");
-		if (logger.isTraceEnabled()) {
-			logger.trace("Loading XML bean definitions from " + encodedResource);
-		}
+//		if (logger.isTraceEnabled()) {
+//			logger.trace("Loading XML bean definitions from " + encodedResource);
+//		}
 
 		Set<EncodedResource> currentResources = this.resourcesCurrentlyBeingLoaded.get();
 		if (currentResources == null) {
@@ -324,8 +324,7 @@ public class XmlBeanDefinitionReader extends AbstractBeanDefinitionReader {
 			this.resourcesCurrentlyBeingLoaded.set(currentResources);
 		}
 		if (!currentResources.add(encodedResource)) {
-			throw new BeanDefinitionStoreException(
-					"Detected cyclic loading of " + encodedResource + " - check your import definitions!");
+			throw new BeanDefinitionStoreException("Detected cyclic loading of " + encodedResource + " - check your import definitions!");
 		}
 		try {
 			InputStream inputStream = encodedResource.getResource().getInputStream();
@@ -341,8 +340,7 @@ public class XmlBeanDefinitionReader extends AbstractBeanDefinitionReader {
 			}
 		}
 		catch (IOException ex) {
-			throw new BeanDefinitionStoreException(
-					"IOException parsing XML document from " + encodedResource.getResource(), ex);
+			throw new BeanDefinitionStoreException("IOException parsing XML document from " + encodedResource.getResource(), ex);
 		}
 		finally {
 			currentResources.remove(encodedResource);
@@ -386,15 +384,14 @@ public class XmlBeanDefinitionReader extends AbstractBeanDefinitionReader {
 	 * @see #doLoadDocument
 	 * @see #registerBeanDefinitions
 	 */
-	protected int doLoadBeanDefinitions(InputSource inputSource, Resource resource)
-			throws BeanDefinitionStoreException {
+	protected int doLoadBeanDefinitions(InputSource inputSource, Resource resource) throws BeanDefinitionStoreException {
 
 		try {
 			Document doc = doLoadDocument(inputSource, resource);
 			int count = registerBeanDefinitions(doc, resource);
-			if (logger.isDebugEnabled()) {
-				logger.debug("Loaded " + count + " bean definitions from " + resource);
-			}
+//			if (logger.isDebugEnabled()) {
+//				logger.debug("Loaded " + count + " bean definitions from " + resource);
+//			}
 			return count;
 		}
 		catch (BeanDefinitionStoreException ex) {

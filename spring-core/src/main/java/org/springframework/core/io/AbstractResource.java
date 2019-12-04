@@ -34,6 +34,7 @@ import org.springframework.lang.Nullable;
 import org.springframework.util.ResourceUtils;
 
 /**
+ * Resource 接口的默认抽象实现。它实现了 Resource 接口的大部分的公共实现，作为 Resource 接口中的重中之重。<br/>
  * Convenience base class for {@link Resource} implementations,
  * pre-implementing typical behavior.
  *

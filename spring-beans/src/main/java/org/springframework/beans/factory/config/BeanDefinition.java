@@ -23,6 +23,10 @@ import org.springframework.core.ResolvableType;
 import org.springframework.lang.Nullable;
 
 /**
+ * 重要！！！
+ * 其实就是bean的定义。也就是一个bean的各种信息的描述。
+ * 比如： 名称、类型、属性、方法、作用域等等......<br />
+ *
  * A BeanDefinition describes a bean instance, which has property values,
  * constructor argument values, and further information supplied by
  * concrete implementations.
