@@ -122,7 +122,9 @@ public abstract class AbstractRefreshableApplicationContext extends AbstractAppl
 	 */
 	@Override
 	protected final void refreshBeanFactory() throws BeansException {
+
 		if (hasBeanFactory()) {
+			System.err.println("-------------------- AbstractRefreshableApplicationContext.refreshBeanFactory已经有工厂，先销毁 --------------------");
 			destroyBeans();
 			closeBeanFactory();
 		}
@@ -204,7 +206,9 @@ public abstract class AbstractRefreshableApplicationContext extends AbstractAppl
 	 * @see org.springframework.beans.factory.support.DefaultListableBeanFactory#setAllowRawInjectionDespiteWrapping
 	 */
 	protected DefaultListableBeanFactory createBeanFactory() {
+		System.err.println("--- AbstractRefreshableApplicationContext.createBeanFactory ");
 		return new DefaultListableBeanFactory(getInternalParentBeanFactory());
+//		return new DefaultListableBeanFactory(); // by leichu test
 	}
 
 	/**
@@ -222,6 +226,7 @@ public abstract class AbstractRefreshableApplicationContext extends AbstractAppl
 	 * @see DefaultListableBeanFactory#setAllowEagerClassLoading
 	 */
 	protected void customizeBeanFactory(DefaultListableBeanFactory beanFactory) {
+		System.err.println("--- 创建工厂 之 自定义工厂 customizeBeanFactory ");
 		if (this.allowBeanDefinitionOverriding != null) {
 			beanFactory.setAllowBeanDefinitionOverriding(this.allowBeanDefinitionOverriding);
 		}

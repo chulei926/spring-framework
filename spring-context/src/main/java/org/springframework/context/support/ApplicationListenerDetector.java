@@ -16,12 +16,8 @@
 
 package org.springframework.context.support;
 
-import java.util.Map;
-import java.util.concurrent.ConcurrentHashMap;
-
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
-
 import org.springframework.beans.factory.config.DestructionAwareBeanPostProcessor;
 import org.springframework.beans.factory.support.MergedBeanDefinitionPostProcessor;
 import org.springframework.beans.factory.support.RootBeanDefinition;
@@ -30,7 +26,15 @@ import org.springframework.context.event.ApplicationEventMulticaster;
 import org.springframework.lang.Nullable;
 import org.springframework.util.ObjectUtils;
 
+import java.util.Map;
+import java.util.concurrent.ConcurrentHashMap;
+
 /**
+ * BeanPostProcessor，用于检测实现ApplicationListener接口的bean。 <br />
+ * 这将捕获getBeanNamesForType和仅对顶级bean有效的相关操作无法可靠检测到的bean。<br />
+ * 使用标准Java序列化，此后处理器不会作为DisposableBeanAdapter的一部分进行序列化。<br />
+ * 但是，在使用其他序列化机制的情况下，可能根本不会使用DisposableBeanAdapter.writeReplace，<br />
+ * 因此我们将此后处理器的字段状态标记为瞬态。<br />
  * {@code BeanPostProcessor} that detects beans which implement the {@code ApplicationListener}
  * interface. This catches beans that can't reliably be detected by {@code getBeanNamesForType}
  * and related operations which only work against top-level beans.
@@ -53,6 +57,7 @@ class ApplicationListenerDetector implements DestructionAwareBeanPostProcessor, 
 
 
 	public ApplicationListenerDetector(AbstractApplicationContext applicationContext) {
+		System.err.println("--- 开始配置工厂之 ApplicationListenerDetector ");
 		this.applicationContext = applicationContext;
 	}
 
@@ -77,8 +82,7 @@ class ApplicationListenerDetector implements DestructionAwareBeanPostProcessor, 
 			if (Boolean.TRUE.equals(flag)) {
 				// singleton bean (top-level or inner): register on the fly
 				this.applicationContext.addApplicationListener((ApplicationListener<?>) bean);
-			}
-			else if (Boolean.FALSE.equals(flag)) {
+			} else if (Boolean.FALSE.equals(flag)) {
 				if (logger.isWarnEnabled() && !this.applicationContext.containsBean(beanName)) {
 					// inner bean with other scope - can't reliably process events
 					logger.warn("Inner bean '" + beanName + "' implements ApplicationListener interface " +
@@ -99,8 +103,7 @@ class ApplicationListenerDetector implements DestructionAwareBeanPostProcessor, 
 				ApplicationEventMulticaster multicaster = this.applicationContext.getApplicationEventMulticaster();
 				multicaster.removeApplicationListener((ApplicationListener<?>) bean);
 				multicaster.removeApplicationListenerBean(beanName);
-			}
-			catch (IllegalStateException ex) {
+			} catch (IllegalStateException ex) {
 				// ApplicationEventMulticaster not initialized yet - no need to remove a listener
 			}
 		}

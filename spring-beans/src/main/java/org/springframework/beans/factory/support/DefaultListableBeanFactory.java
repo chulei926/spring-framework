@@ -200,6 +200,7 @@ public class DefaultListableBeanFactory extends AbstractAutowireCapableBeanFacto
 	 */
 	public DefaultListableBeanFactory(@Nullable BeanFactory parentBeanFactory) {
 		super(parentBeanFactory);
+		System.err.println("--- DefaultListableBeanFactory.DefaultListableBeanFactory(BeanFactory) ");
 	}
 
 
@@ -846,9 +847,9 @@ public class DefaultListableBeanFactory extends AbstractAutowireCapableBeanFacto
 
 	@Override
 	public void preInstantiateSingletons() throws BeansException {
-		if (logger.isTraceEnabled()) {
-			logger.trace("Pre-instantiating singletons in " + this);
-		}
+//		if (logger.isTraceEnabled()) {
+//			logger.trace("Pre-instantiating singletons in " + this);
+//		}
 
 		// Iterate over a copy to allow for init methods which in turn register new bean definitions.
 		// While this may not be part of the regular factory bootstrap, it does otherwise work fine.
@@ -909,6 +910,7 @@ public class DefaultListableBeanFactory extends AbstractAutowireCapableBeanFacto
 
 	@Override
 	public void registerBeanDefinition(String beanName, BeanDefinition beanDefinition) throws BeanDefinitionStoreException {
+		System.err.println("--- 创建工厂 之 注册 BeanDefinition 到 beanDefinitionMap （DefaultListableBeanFactory.registerBeanDefinition） " + beanName);
 		/**
 		 * TODO 重要！！！
 		 * 将 beanDefinition 放入 beanDefinitionMap.
@@ -919,40 +921,38 @@ public class DefaultListableBeanFactory extends AbstractAutowireCapableBeanFacto
 		if (beanDefinition instanceof AbstractBeanDefinition) {
 			try {
 				((AbstractBeanDefinition) beanDefinition).validate();
-			}
-			catch (BeanDefinitionValidationException ex) {
-				throw new BeanDefinitionStoreException(beanDefinition.getResourceDescription(), beanName,
-						"Validation of bean definition failed", ex);
+			} catch (BeanDefinitionValidationException ex) {
+				throw new BeanDefinitionStoreException(beanDefinition.getResourceDescription(), beanName, "Validation of bean definition failed", ex);
 			}
 		}
 
 		BeanDefinition existingDefinition = this.beanDefinitionMap.get(beanName);
 		if (existingDefinition != null) {
-			if (!isAllowBeanDefinitionOverriding()) {
-				throw new BeanDefinitionOverrideException(beanName, beanDefinition, existingDefinition);
-			}
-			else if (existingDefinition.getRole() < beanDefinition.getRole()) {
-				// e.g. was ROLE_APPLICATION, now overriding with ROLE_SUPPORT or ROLE_INFRASTRUCTURE
-				if (logger.isInfoEnabled()) {
-					logger.info("Overriding user-defined bean definition for bean '" + beanName +
-							"' with a framework-generated bean definition: replacing [" +
-							existingDefinition + "] with [" + beanDefinition + "]");
-				}
-			}
-			else if (!beanDefinition.equals(existingDefinition)) {
-				if (logger.isDebugEnabled()) {
-					logger.debug("Overriding bean definition for bean '" + beanName +
-							"' with a different definition: replacing [" + existingDefinition +
-							"] with [" + beanDefinition + "]");
-				}
-			}
-			else {
-				if (logger.isTraceEnabled()) {
-					logger.trace("Overriding bean definition for bean '" + beanName +
-							"' with an equivalent definition: replacing [" + existingDefinition +
-							"] with [" + beanDefinition + "]");
-				}
-			}
+//			if (!isAllowBeanDefinitionOverriding()) {
+//				throw new BeanDefinitionOverrideException(beanName, beanDefinition, existingDefinition);
+//			}
+//			else if (existingDefinition.getRole() < beanDefinition.getRole()) {
+//				// e.g. was ROLE_APPLICATION, now overriding with ROLE_SUPPORT or ROLE_INFRASTRUCTURE
+//				if (logger.isInfoEnabled()) {
+//					logger.info("Overriding user-defined bean definition for bean '" + beanName +
+//							"' with a framework-generated bean definition: replacing [" +
+//							existingDefinition + "] with [" + beanDefinition + "]");
+//				}
+//			}
+//			else if (!beanDefinition.equals(existingDefinition)) {
+//				if (logger.isDebugEnabled()) {
+//					logger.debug("Overriding bean definition for bean '" + beanName +
+//							"' with a different definition: replacing [" + existingDefinition +
+//							"] with [" + beanDefinition + "]");
+//				}
+//			}
+//			else {
+//				if (logger.isTraceEnabled()) {
+//					logger.trace("Overriding bean definition for bean '" + beanName +
+//							"' with an equivalent definition: replacing [" + existingDefinition +
+//							"] with [" + beanDefinition + "]");
+//				}
+//			}
 			this.beanDefinitionMap.put(beanName, beanDefinition);
 		}
 		else {

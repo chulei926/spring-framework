@@ -9,13 +9,17 @@ import org.springframework.stereotype.Component;
 
 @Component
 public class MyBeanFactoryPostProcessor implements BeanFactoryPostProcessor {
+
 	public MyBeanFactoryPostProcessor(){
-		System.out.println();
+		System.err.println("--- 注册了 MyBeanFactoryPostProcessor ");
 	}
 
 	@Override
 	public void postProcessBeanFactory(ConfigurableListableBeanFactory beanFactory) throws BeansException {
-		System.err.println("--------------------执行了 MyBeanFactoryPostProcessors ");
+		System.err.println("--- 执行了 MyBeanFactoryPostProcessor ");
+		for (String beanDefinitionName : beanFactory.getBeanDefinitionNames()) {
+			System.out.println(beanDefinitionName);
+		}
 		GenericBeanDefinition genericBeanDefinition = (GenericBeanDefinition) beanFactory.getBeanDefinition("user");
 //		genericBeanDefinition.setBeanClass(Animal.class);
 

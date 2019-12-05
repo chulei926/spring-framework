@@ -127,8 +127,10 @@ public class XmlBeanDefinitionReader extends AbstractBeanDefinitionReader {
 
 	private final XmlValidationModeDetector validationModeDetector = new XmlValidationModeDetector();
 
-	private final ThreadLocal<Set<EncodedResource>> resourcesCurrentlyBeingLoaded =
-			new NamedThreadLocal<>("XML bean definition resources currently being loaded");
+	/**
+	 * 当前正在加载的XML beanDefinition 资源.
+	 */
+	private final ThreadLocal<Set<EncodedResource>> resourcesCurrentlyBeingLoaded = new NamedThreadLocal<>("XML bean definition resources currently being loaded");
 
 
 	/**
@@ -317,23 +319,40 @@ public class XmlBeanDefinitionReader extends AbstractBeanDefinitionReader {
 //		if (logger.isTraceEnabled()) {
 //			logger.trace("Loading XML bean definitions from " + encodedResource);
 //		}
-
+		System.err.println("--- 创建工厂 之 加载 BeanDefinition （XmlBeanDefinitionReader.loadBeanDefinitions(EncodedResource)）");
 		Set<EncodedResource> currentResources = this.resourcesCurrentlyBeingLoaded.get();
 		if (currentResources == null) {
 			currentResources = new HashSet<>(4);
+			System.err.println("--- 创建工厂 之 设置正在加载的 BeanDefinition 到 ThreadLocal<Set<EncodedResource>> ");
 			this.resourcesCurrentlyBeingLoaded.set(currentResources);
 		}
-		if (!currentResources.add(encodedResource)) {
+		/**
+		 * 在解析Resource之前，Spring会将此Resource存储于当前线程的局部变量ThreadLocal<Set<EncodedResource>> resourcesCurrentlyBeingLoaded中；
+		 * 在解析之后会将Resource从resourcesCurrentlyBeingLoaded移除。
+		 * 但这个操作的目的是什么呢？
+		 * 从两方面来分析：
+		 * 1. 利用Set结构防止重复解析，注意看 标注1 处的代码，我们知道Set内元素唯一，如果已经将同一个Resource多次添加至Set中时，除了第一次之外其余都不会添加成功的；
+		 * 2. 利用ThreadLocal确保线程安全。
+		 *    虽然第一步通过Set防止了重复解析，但前提是单线程情况下；
+		 *    如果此方法被多线程调用时，那么还是会有几率出现一个Resource被多次解析；
+		 *    传统的解决方式是使用synchronized进行同步，但加锁会导致解析效率低下，所以此处将其放置于ThreadLocal对象中，确保每个线程只能访问自己的Set，
+		 *    从而既保证了性能，又解决了线程不安全的问题.
+		 *
+		 */
+
+		if (!currentResources.add(encodedResource)) {   // 标注1
 			throw new BeanDefinitionStoreException("Detected cyclic loading of " + encodedResource + " - check your import definitions!");
 		}
+
 		try {
 			InputStream inputStream = encodedResource.getResource().getInputStream();
+			System.err.println("--- 创建工厂 之 从 Resource 中获取 InputStream，创建 InputSource");
 			try {
 				InputSource inputSource = new InputSource(inputStream);
 				if (encodedResource.getEncoding() != null) {
 					inputSource.setEncoding(encodedResource.getEncoding());
 				}
-				return doLoadBeanDefinitions(inputSource, encodedResource.getResource());
+				return doLoadBeanDefinitions(inputSource, encodedResource.getResource());   // 标注2
 			}
 			finally {
 				inputStream.close();
@@ -376,6 +395,7 @@ public class XmlBeanDefinitionReader extends AbstractBeanDefinitionReader {
 
 
 	/**
+	 * 正式从 xml 加载 BeanDefinition。<br />
 	 * Actually load bean definitions from the specified XML file.
 	 * @param inputSource the SAX InputSource to read from
 	 * @param resource the resource descriptor for the XML file
@@ -385,7 +405,7 @@ public class XmlBeanDefinitionReader extends AbstractBeanDefinitionReader {
 	 * @see #registerBeanDefinitions
 	 */
 	protected int doLoadBeanDefinitions(InputSource inputSource, Resource resource) throws BeanDefinitionStoreException {
-
+		System.err.println("--- 创建工厂 之 正式从 xml 加载 BeanDefinition ");
 		try {
 			Document doc = doLoadDocument(inputSource, resource);
 			int count = registerBeanDefinitions(doc, resource);
@@ -429,6 +449,7 @@ public class XmlBeanDefinitionReader extends AbstractBeanDefinitionReader {
 	 * @see DocumentLoader#loadDocument
 	 */
 	protected Document doLoadDocument(InputSource inputSource, Resource resource) throws Exception {
+		System.err.println("--- 创建工厂 之 把 xml 文件转换为 Document ");
 		return this.documentLoader.loadDocument(inputSource, getEntityResolver(), this.errorHandler,
 				getValidationModeForResource(resource), isNamespaceAware());
 	}
@@ -493,6 +514,7 @@ public class XmlBeanDefinitionReader extends AbstractBeanDefinitionReader {
 	}
 
 	/**
+	 * <b>从 Document 中 解析出 BeanDefinition，并注册。</b><br/>
 	 * Register the bean definitions contained in the given DOM document.
 	 * Called by {@code loadBeanDefinitions}.
 	 * <p>Creates a new instance of the parser class and invokes
@@ -506,6 +528,7 @@ public class XmlBeanDefinitionReader extends AbstractBeanDefinitionReader {
 	 * @see BeanDefinitionDocumentReader#registerBeanDefinitions
 	 */
 	public int registerBeanDefinitions(Document doc, Resource resource) throws BeanDefinitionStoreException {
+		System.err.println("--- 创建工厂 之 从 Document 中 解析出 BeanDefinition，并注册。（XmlBeanDefinitionReader.registerBeanDefinitions）");
 		BeanDefinitionDocumentReader documentReader = createBeanDefinitionDocumentReader();
 		int countBefore = getRegistry().getBeanDefinitionCount();
 		documentReader.registerBeanDefinitions(doc, createReaderContext(resource));
@@ -519,6 +542,7 @@ public class XmlBeanDefinitionReader extends AbstractBeanDefinitionReader {
 	 * @see #setDocumentReaderClass
 	 */
 	protected BeanDefinitionDocumentReader createBeanDefinitionDocumentReader() {
+		System.err.println("--- 创建工厂 之  创建 BeanDefinitionDocument 读取器 BeanDefinitionDocumentReader ");
 		return BeanUtils.instantiateClass(this.documentReaderClass);
 	}
 

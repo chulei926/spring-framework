@@ -70,6 +70,7 @@ class ApplicationContextAwareProcessor implements BeanPostProcessor {
 	 * Create a new ApplicationContextAwareProcessor for the given context.
 	 */
 	public ApplicationContextAwareProcessor(ConfigurableApplicationContext applicationContext) {
+		System.err.println("--- 开始配置工厂之 ApplicationContextAwareProcessor ");
 		this.applicationContext = applicationContext;
 		this.embeddedValueResolver = new EmbeddedValueResolver(applicationContext.getBeanFactory());
 	}

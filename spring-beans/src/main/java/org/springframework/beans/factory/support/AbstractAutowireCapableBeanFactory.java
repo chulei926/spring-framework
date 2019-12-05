@@ -407,8 +407,7 @@ public abstract class AbstractAutowireCapableBeanFactory extends AbstractBeanFac
 	}
 
 	@Override
-	public Object applyBeanPostProcessorsBeforeInitialization(Object existingBean, String beanName)
-			throws BeansException {
+	public Object applyBeanPostProcessorsBeforeInitialization(Object existingBean, String beanName) throws BeansException {
 		if ("user".equals(beanName)){
 			System.out.println("============== 开始执行所有的BeanPostProcessor.postProcessBeforeInitialization ==============");
 		}

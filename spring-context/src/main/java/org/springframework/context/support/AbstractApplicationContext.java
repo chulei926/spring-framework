@@ -512,6 +512,10 @@ public abstract class AbstractApplicationContext extends DefaultResourceLoader
 	 * to the internal BeanFactory.
 	 */
 	public List<BeanFactoryPostProcessor> getBeanFactoryPostProcessors() {
+		System.err.println("--- 获取工厂后置处理器 getBeanFactoryPostProcessors 个数: " + this.beanFactoryPostProcessors.size());
+		for (BeanFactoryPostProcessor beanFactoryPostProcessor : this.beanFactoryPostProcessors) {
+			System.out.println(beanFactoryPostProcessor.getClass());
+		}
 		return this.beanFactoryPostProcessors;
 	}
 
@@ -550,9 +554,14 @@ public abstract class AbstractApplicationContext extends DefaultResourceLoader
 			 * 因为要对 beanFactory 进行配置。
 			 */
 			ConfigurableListableBeanFactory beanFactory = obtainFreshBeanFactory();
-			System.err.println("--------------------- AbstractApplicationContext.beanFactory 准备完成 : " + beanFactory);
+			/**
+			 * 此时，beanFactory 中的 beanDefinitionMap 已经有值.
+			 * 包括 spring 自带的几个类（RootBeanDefinition）， 还有自定义的一些类（ScannedGenericBeanDefinition）。
+			 */
+			System.err.println("--- 工厂创建完成 AbstractApplicationContext.beanFactory - DefaultListableBeanFactory ");
 
 			// Prepare the bean factory for use in this context.
+			// 对 beanFactory 进行初始化配置
 			prepareBeanFactory(beanFactory);
 
 			try {
@@ -679,6 +688,7 @@ public abstract class AbstractApplicationContext extends DefaultResourceLoader
 	 * @see #getBeanFactory()
 	 */
 	protected ConfigurableListableBeanFactory obtainFreshBeanFactory() {
+		System.err.println("--- 开始创建工厂 obtainFreshBeanFactory ");
 		refreshBeanFactory();
 		return getBeanFactory();
 	}
@@ -690,6 +700,7 @@ public abstract class AbstractApplicationContext extends DefaultResourceLoader
 	 * @param beanFactory the BeanFactory to configure
 	 */
 	protected void prepareBeanFactory(ConfigurableListableBeanFactory beanFactory) {
+		System.err.println("--- 配置工厂 prepareBeanFactory ");
 		// Tell the internal bean factory to use the context's class loader etc.
 		beanFactory.setBeanClassLoader(getClassLoader());
 		beanFactory.setBeanExpressionResolver(new StandardBeanExpressionResolver(beanFactory.getBeanClassLoader()));
@@ -755,6 +766,7 @@ public abstract class AbstractApplicationContext extends DefaultResourceLoader
 	 * <p>Must be called before singleton instantiation.
 	 */
 	protected void invokeBeanFactoryPostProcessors(ConfigurableListableBeanFactory beanFactory) {
+		System.err.println("--- 执行 工厂后置处理器 ");
 		PostProcessorRegistrationDelegate.invokeBeanFactoryPostProcessors(beanFactory, getBeanFactoryPostProcessors());
 
 		// Detect a LoadTimeWeaver and prepare for weaving, if found in the meantime

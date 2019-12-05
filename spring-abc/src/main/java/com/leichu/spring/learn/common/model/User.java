@@ -1,6 +1,7 @@
 package com.leichu.spring.learn.common.model;
 
 import com.leichu.spring.learn.common.service.TestService;
+import org.springframework.beans.factory.InitializingBean;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
@@ -43,4 +44,5 @@ public class User {
 	public void say(){
 		System.err.println(" ==================== hello user ==================== ");
 	}
+
 }
