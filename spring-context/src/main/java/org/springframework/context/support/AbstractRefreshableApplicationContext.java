@@ -227,9 +227,14 @@ public abstract class AbstractRefreshableApplicationContext extends AbstractAppl
 	 */
 	protected void customizeBeanFactory(DefaultListableBeanFactory beanFactory) {
 		System.err.println("--- 创建工厂 之 自定义工厂 customizeBeanFactory ");
+		// 配置了bean是否允许被覆盖，如果允许，beanDefinitionMap 有重复的key存在时就会覆盖，否则就会抛异常。
+		// 在 org.springframework.beans.factory.support.DefaultListableBeanFactory.registerBeanDefinition 方法中有体现。
+		// 默认值 = true
 		if (this.allowBeanDefinitionOverriding != null) {
 			beanFactory.setAllowBeanDefinitionOverriding(this.allowBeanDefinitionOverriding);
 		}
+		// 是否允许循环依赖
+		// 默认是 允许
 		if (this.allowCircularReferences != null) {
 			beanFactory.setAllowCircularReferences(this.allowCircularReferences);
 		}

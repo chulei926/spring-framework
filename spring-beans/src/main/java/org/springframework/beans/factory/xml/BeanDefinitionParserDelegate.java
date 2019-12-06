@@ -406,6 +406,8 @@ public class BeanDefinitionParserDelegate {
 	}
 
 	/**
+	 * <b>Element 解析为 BeanDefinitionHolder。</b>
+	 * <br/>
 	 * Parses the supplied {@code <bean>} element. May return {@code null}
 	 * if there were errors during parse. Errors are reported to the
 	 * {@link org.springframework.beans.factory.parsing.ProblemReporter}.
@@ -425,8 +427,7 @@ public class BeanDefinitionParserDelegate {
 		if (!StringUtils.hasText(beanName) && !aliases.isEmpty()) {
 			beanName = aliases.remove(0);
 			if (logger.isTraceEnabled()) {
-				logger.trace("No XML 'id' specified - using '" + beanName +
-						"' as bean name and " + aliases + " as aliases");
+				logger.trace("No XML 'id' specified - using '" + beanName + "' as bean name and " + aliases + " as aliases");
 			}
 		}
 
@@ -439,8 +440,7 @@ public class BeanDefinitionParserDelegate {
 			if (!StringUtils.hasText(beanName)) {
 				try {
 					if (containingBean != null) {
-						beanName = BeanDefinitionReaderUtils.generateBeanName(
-								beanDefinition, this.readerContext.getRegistry(), true);
+						beanName = BeanDefinitionReaderUtils.generateBeanName(beanDefinition, this.readerContext.getRegistry(), true);
 					}
 					else {
 						beanName = this.readerContext.generateBeanName(beanDefinition);
@@ -455,8 +455,7 @@ public class BeanDefinitionParserDelegate {
 						}
 					}
 					if (logger.isTraceEnabled()) {
-						logger.trace("Neither XML 'id' nor 'name' specified - " +
-								"using generated bean name [" + beanName + "]");
+						logger.trace("Neither XML 'id' nor 'name' specified - " + "using generated bean name [" + beanName + "]");
 					}
 				}
 				catch (Exception ex) {
@@ -497,11 +496,8 @@ public class BeanDefinitionParserDelegate {
 	 * {@code null} if problems occurred during the parsing of the bean definition.
 	 */
 	@Nullable
-	public AbstractBeanDefinition parseBeanDefinitionElement(
-			Element ele, String beanName, @Nullable BeanDefinition containingBean) {
-
+	public AbstractBeanDefinition parseBeanDefinitionElement(Element ele, String beanName, @Nullable BeanDefinition containingBean) {
 		this.parseState.push(new BeanEntry(beanName));
-
 		String className = null;
 		if (ele.hasAttribute(CLASS_ATTRIBUTE)) {
 			className = ele.getAttribute(CLASS_ATTRIBUTE).trim();
@@ -510,7 +506,6 @@ public class BeanDefinitionParserDelegate {
 		if (ele.hasAttribute(PARENT_ATTRIBUTE)) {
 			parent = ele.getAttribute(PARENT_ATTRIBUTE);
 		}
-
 		try {
 			AbstractBeanDefinition bd = createBeanDefinition(className, parent);
 
@@ -529,20 +524,15 @@ public class BeanDefinitionParserDelegate {
 			bd.setSource(extractSource(ele));
 
 			return bd;
-		}
-		catch (ClassNotFoundException ex) {
+		} catch (ClassNotFoundException ex) {
 			error("Bean class [" + className + "] not found", ele, ex);
-		}
-		catch (NoClassDefFoundError err) {
+		} catch (NoClassDefFoundError err) {
 			error("Class that bean class [" + className + "] depends on not found", ele, err);
-		}
-		catch (Throwable ex) {
+		} catch (Throwable ex) {
 			error("Unexpected failure during bean definition parsing", ele, ex);
-		}
-		finally {
+		} finally {
 			this.parseState.pop();
 		}
-
 		return null;
 	}
 
@@ -630,17 +620,16 @@ public class BeanDefinitionParserDelegate {
 	}
 
 	/**
+	 * <b>正式创建 BeanDefinition。</b>
+	 * <br/>
 	 * Create a bean definition for the given class name and parent name.
 	 * @param className the name of the bean class
 	 * @param parentName the name of the bean's parent bean
 	 * @return the newly created bean definition
 	 * @throws ClassNotFoundException if bean class resolution was attempted but failed
 	 */
-	protected AbstractBeanDefinition createBeanDefinition(@Nullable String className, @Nullable String parentName)
-			throws ClassNotFoundException {
-
-		return BeanDefinitionReaderUtils.createBeanDefinition(
-				parentName, className, this.readerContext.getBeanClassLoader());
+	protected AbstractBeanDefinition createBeanDefinition(@Nullable String className, @Nullable String parentName) throws ClassNotFoundException {
+		return BeanDefinitionReaderUtils.createBeanDefinition(parentName, className, this.readerContext.getBeanClassLoader());
 	}
 
 	/**

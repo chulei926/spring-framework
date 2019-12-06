@@ -225,14 +225,13 @@ public abstract class AbstractBeanDefinitionReader implements BeanDefinitionRead
 				if (actualResources != null) {
 					Collections.addAll(actualResources, resources);
 				}
-				if (logger.isTraceEnabled()) {
-					logger.trace("Loaded " + count + " bean definitions from location pattern [" + location + "]");
-				}
+//				if (logger.isTraceEnabled()) {
+//					logger.trace("Loaded " + count + " bean definitions from location pattern [" + location + "]");
+//				}
 				return count;
 			}
 			catch (IOException ex) {
-				throw new BeanDefinitionStoreException(
-						"Could not resolve bean definition resource pattern [" + location + "]", ex);
+				throw new BeanDefinitionStoreException("Could not resolve bean definition resource pattern [" + location + "]", ex);
 			}
 		}
 		else {
@@ -242,9 +241,9 @@ public abstract class AbstractBeanDefinitionReader implements BeanDefinitionRead
 			if (actualResources != null) {
 				actualResources.add(resource);
 			}
-			if (logger.isTraceEnabled()) {
-				logger.trace("Loaded " + count + " bean definitions from location [" + location + "]");
-			}
+//			if (logger.isTraceEnabled()) {
+//				logger.trace("Loaded " + count + " bean definitions from location [" + location + "]");
+//			}
 			return count;
 		}
 	}

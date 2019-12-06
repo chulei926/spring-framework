@@ -130,9 +130,11 @@ public class ClassPathXmlApplicationContext extends AbstractXmlApplicationContex
 	}
 
 	/**
-	 * refresh: true <br/>
-	 * parent: null
-	 * <p>
+	 * <b>
+	 * 1. 先调用父类构造器进行初始化。<br/>
+	 * 2. 设置 xml 文件路径。<br/>
+	 * 3. refresh 加载配置文件。<br/>
+	 * </b>
 	 * Create a new ClassPathXmlApplicationContext with the given parent,
 	 * loading the definitions from the given XML files.
 	 *
@@ -145,9 +147,9 @@ public class ClassPathXmlApplicationContext extends AbstractXmlApplicationContex
 	 * @see #refresh()
 	 */
 	public ClassPathXmlApplicationContext(String[] configLocations, boolean refresh, @Nullable ApplicationContext parent) throws BeansException {
-		super(parent);
+		super(parent); // parent = null
 		setConfigLocations(configLocations);
-		if (refresh) { // 默认为 true
+		if (refresh) { // refresh = true
 			refresh();
 		}
 	}
