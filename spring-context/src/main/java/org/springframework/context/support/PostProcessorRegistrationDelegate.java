@@ -306,6 +306,10 @@ final class PostProcessorRegistrationDelegate {
 		// 7. 注册所有常规的 BeanPostProcessors（过程与6类似）
 		List<BeanPostProcessor> nonOrderedPostProcessors = new ArrayList<>(nonOrderedPostProcessorNames.size());
 		for (String ppName : nonOrderedPostProcessorNames) {
+			/**
+			 * 从 beanFactory 中获取 BeanPostProcessor 对象。
+			 * 此时，执行 BeanPostProcessor 的构造器。
+			 */
 			BeanPostProcessor pp = beanFactory.getBean(ppName, BeanPostProcessor.class);
 			nonOrderedPostProcessors.add(pp);
 			if (pp instanceof MergedBeanDefinitionPostProcessor) {

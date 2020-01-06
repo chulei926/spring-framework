@@ -24,6 +24,7 @@ import org.springframework.beans.factory.BeanFactory;
 import org.springframework.beans.factory.NoSuchBeanDefinitionException;
 import org.springframework.beans.factory.ObjectProvider;
 import org.springframework.beans.factory.config.AutowireCapableBeanFactory;
+import org.springframework.beans.factory.config.BeanDefinition;
 import org.springframework.beans.factory.config.BeanFactoryPostProcessor;
 import org.springframework.beans.factory.config.ConfigurableListableBeanFactory;
 import org.springframework.beans.support.ResourceEditorRegistrar;
@@ -562,6 +563,14 @@ public abstract class AbstractApplicationContext extends DefaultResourceLoader
 			 */
 			System.err.println("--- 工厂创建完成 AbstractApplicationContext.beanFactory - DefaultListableBeanFactory ");
 
+			////////////////////////////////////////////////////////////////////////////////
+//			for (String beanDefinitionName : beanFactory.getBeanDefinitionNames()) {
+//				BeanDefinition definition = beanFactory.getBeanDefinition(beanDefinitionName);
+//				System.out.println(beanDefinitionName + " " + definition);
+//			}
+			////////////////////////////////////////////////////////////////////////////////
+
+
 			// Prepare the bean factory for use in this context.
 			// 对 beanFactory 进行初始化配置
 			prepareBeanFactory(beanFactory);
@@ -586,8 +595,7 @@ public abstract class AbstractApplicationContext extends DefaultResourceLoader
 
 				// Register bean processors that intercept bean creation.
 				/**
-				 * 注册 BeanPostProcessors.
-				 *
+				 * 注册所有的 BeanPostProcessors.
 				 */
 				registerBeanPostProcessors(beanFactory);
 
@@ -682,6 +690,7 @@ public abstract class AbstractApplicationContext extends DefaultResourceLoader
 	}
 
 	/**
+	 * <p>告诉子类刷新内部bean工厂。</p>
 	 * Tell the subclass to refresh the internal bean factory.
 	 *
 	 * @return the fresh BeanFactory instance
@@ -785,7 +794,7 @@ public abstract class AbstractApplicationContext extends DefaultResourceLoader
 		// 实例化 并 调用 所有已注册的 BeanFactoryPostProcessor
 		//
 		PostProcessorRegistrationDelegate.invokeBeanFactoryPostProcessors(beanFactory, getBeanFactoryPostProcessors());
-
+ 
 		// Detect a LoadTimeWeaver and prepare for weaving, if found in the meantime
 		// (e.g. through an @Bean method registered by ConfigurationClassPostProcessor)
 		if (beanFactory.getTempClassLoader() == null && beanFactory.containsBean(LOAD_TIME_WEAVER_BEAN_NAME)) {
@@ -930,10 +939,8 @@ public abstract class AbstractApplicationContext extends DefaultResourceLoader
 	 */
 	protected void finishBeanFactoryInitialization(ConfigurableListableBeanFactory beanFactory) {
 		// Initialize conversion service for this context.
-		if (beanFactory.containsBean(CONVERSION_SERVICE_BEAN_NAME) &&
-				beanFactory.isTypeMatch(CONVERSION_SERVICE_BEAN_NAME, ConversionService.class)) {
-			beanFactory.setConversionService(
-					beanFactory.getBean(CONVERSION_SERVICE_BEAN_NAME, ConversionService.class));
+		if (beanFactory.containsBean(CONVERSION_SERVICE_BEAN_NAME) && beanFactory.isTypeMatch(CONVERSION_SERVICE_BEAN_NAME, ConversionService.class)) {
+			beanFactory.setConversionService(beanFactory.getBean(CONVERSION_SERVICE_BEAN_NAME, ConversionService.class));
 		}
 
 		// Register a default embedded value resolver if no bean post-processor
@@ -956,9 +963,7 @@ public abstract class AbstractApplicationContext extends DefaultResourceLoader
 		beanFactory.freezeConfiguration();
 
 		// Instantiate all remaining (non-lazy-init) singletons.
-		/**
-		 * 实例化单例对象。
-		 */
+		// 实例化单例对象。
 		beanFactory.preInstantiateSingletons();
 	}
 

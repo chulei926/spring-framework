@@ -2,7 +2,7 @@ package com.leichu.spring.learn.common.service;
 
 import org.springframework.stereotype.Component;
 
-@Component
+//@Component
 public class TestService {
 
 	public void test(){

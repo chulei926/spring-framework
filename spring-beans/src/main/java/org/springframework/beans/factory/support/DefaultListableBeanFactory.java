@@ -857,29 +857,25 @@ public class DefaultListableBeanFactory extends AbstractAutowireCapableBeanFacto
 
 		// Trigger initialization of all non-lazy singleton beans...
 		for (String beanName : beanNames) {
+			// 从 mergedBeanDefinitions map 中获取 BeanDefinition，获取不到再从 beanDefinitionMap 中获取。
 			RootBeanDefinition bd = getMergedLocalBeanDefinition(beanName);
-			if (!bd.isAbstract() && bd.isSingleton() && !bd.isLazyInit()) {
+			if (!bd.isAbstract() && bd.isSingleton() && !bd.isLazyInit()) { // // 非抽象、非懒加载、非单例
 				// FactoryBean 和 BeanFactory 有什么区别？
-				if (isFactoryBean(beanName)) {
+				if (isFactoryBean(beanName)) { // 是否是 工厂bean
 					Object bean = getBean(FACTORY_BEAN_PREFIX + beanName);
 					if (bean instanceof FactoryBean) {
 						final FactoryBean<?> factory = (FactoryBean<?>) bean;
 						boolean isEagerInit;
 						if (System.getSecurityManager() != null && factory instanceof SmartFactoryBean) {
-							isEagerInit = AccessController.doPrivileged((PrivilegedAction<Boolean>)
-											((SmartFactoryBean<?>) factory)::isEagerInit,
-									getAccessControlContext());
-						}
-						else {
-							isEagerInit = (factory instanceof SmartFactoryBean &&
-									((SmartFactoryBean<?>) factory).isEagerInit());
+							isEagerInit = AccessController.doPrivileged((PrivilegedAction<Boolean>) ((SmartFactoryBean<?>) factory)::isEagerInit, getAccessControlContext());
+						} else {
+							isEagerInit = (factory instanceof SmartFactoryBean && ((SmartFactoryBean<?>) factory).isEagerInit());
 						}
 						if (isEagerInit) {
 							getBean(beanName);
 						}
 					}
-				}
-				else {
+				} else {
 					getBean(beanName);
 				}
 			}

@@ -49,21 +49,26 @@ import org.springframework.lang.Nullable;
  *
  * @author Juergen Hoeller
  * @author Sam Brannen
- * @since 10.10.2003
  * @see InstantiationAwareBeanPostProcessor
  * @see DestructionAwareBeanPostProcessor
  * @see ConfigurableBeanFactory#addBeanPostProcessor
  * @see BeanFactoryPostProcessor
+ * @since 10.10.2003
  */
 public interface BeanPostProcessor {
 
 	/**
+	 * 在对象创建完成、任何初始化方法调用（例如InitializingBean的afterPropertiesSet或自定义init-method）之前进行调用。<br/>
+	 * <p>
+	 * 可以返回原生的bean，也可以返回包装后的bean。<br/>
+	 * <p>
 	 * Apply this {@code BeanPostProcessor} to the given new bean instance <i>before</i> any bean
 	 * initialization callbacks (like InitializingBean's {@code afterPropertiesSet}
 	 * or a custom init-method). The bean will already be populated with property values.
 	 * The returned bean instance may be a wrapper around the original.
 	 * <p>The default implementation returns the given {@code bean} as-is.
-	 * @param bean the new bean instance
+	 *
+	 * @param bean     the new bean instance
 	 * @param beanName the name of the bean
 	 * @return the bean instance to use, either the original or a wrapped one;
 	 * if {@code null}, no subsequent BeanPostProcessors will be invoked
@@ -76,6 +81,10 @@ public interface BeanPostProcessor {
 	}
 
 	/**
+	 * 在对象创建完成、初始化方法调用（例如InitializingBean的afterPropertiesSet或自定义init-method）之后进行调用。<br/>
+	 * <p>
+	 * 可以返回原生的bean，也可以返回包装后的bean。<br/>
+	 * <p>
 	 * Apply this {@code BeanPostProcessor} to the given new bean instance <i>after</i> any bean
 	 * initialization callbacks (like InitializingBean's {@code afterPropertiesSet}
 	 * or a custom init-method). The bean will already be populated with property values.
@@ -88,7 +97,8 @@ public interface BeanPostProcessor {
 	 * {@link InstantiationAwareBeanPostProcessor#postProcessBeforeInstantiation} method,
 	 * in contrast to all other {@code BeanPostProcessor} callbacks.
 	 * <p>The default implementation returns the given {@code bean} as-is.
-	 * @param bean the new bean instance
+	 *
+	 * @param bean     the new bean instance
 	 * @param beanName the name of the bean
 	 * @return the bean instance to use, either the original or a wrapped one;
 	 * if {@code null}, no subsequent BeanPostProcessors will be invoked

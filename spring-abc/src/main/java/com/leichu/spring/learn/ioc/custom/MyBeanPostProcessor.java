@@ -2,27 +2,26 @@ package com.leichu.spring.learn.ioc.custom;
 
 import org.springframework.beans.BeansException;
 import org.springframework.beans.factory.config.BeanPostProcessor;
-import org.springframework.stereotype.Component;
 
-@Component
+
 public class MyBeanPostProcessor implements BeanPostProcessor {
 
-	public MyBeanPostProcessor(){
-		System.out.println("+++++++++++++++ MyBeanPostProcessor +++++++++++++++");
+	public MyBeanPostProcessor() {
+		System.out.println("+++++++++++++++ MyBeanPostProcessor 构造器执行，实例化完成 +++++++++++++++");
 	}
 
 	@Override
 	public Object postProcessBeforeInitialization(Object bean, String beanName) throws BeansException {
-		if ("user".equals(beanName)){
-			System.out.println("==============前处理=============== beanName: " + beanName);
+		if ("user".equals(beanName)) {
+			System.out.println("User ---------> BeanPostProcessor ---------> postProcessBeforeInitialization 执行   ---------> 所有初始化方法调用之前执行");
 		}
 		return bean;
 	}
 
 	@Override
 	public Object postProcessAfterInitialization(Object bean, String beanName) throws BeansException {
-		if ("user".equals(beanName)){
-			System.out.println("==============后处理=============== beanName: " + beanName);
+		if ("user".equals(beanName)) {
+			System.out.println("User ---------> BeanPostProcessor ---------> postProcessAfterInitialization 执行  ---------> 所有初始化方法调用之后执行");
 		}
 		return bean;
 	}
