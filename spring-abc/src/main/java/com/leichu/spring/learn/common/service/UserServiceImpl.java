@@ -2,7 +2,7 @@ package com.leichu.spring.learn.common.service;
 
 import org.springframework.stereotype.Service;
 
-//@Service("userService")
+@Service("userService")
 public class UserServiceImpl implements UserService {
 
 	@Override

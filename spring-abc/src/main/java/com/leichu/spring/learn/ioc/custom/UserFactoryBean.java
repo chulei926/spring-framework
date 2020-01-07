@@ -2,7 +2,6 @@ package com.leichu.spring.learn.ioc.custom;
 
 import com.leichu.spring.learn.common.model.User;
 import org.springframework.beans.factory.FactoryBean;
-import org.springframework.context.annotation.Import;
 
 public class UserFactoryBean implements FactoryBean<User> {
 
