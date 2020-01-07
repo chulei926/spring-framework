@@ -1178,8 +1178,8 @@ public abstract class AbstractAutowireCapableBeanFactory extends AbstractBeanFac
 
 		// Candidate constructors for autowiring?
 		Constructor<?>[] ctors = determineConstructorsFromBeanPostProcessors(beanClass, beanName);
-		if (ctors != null || mbd.getResolvedAutowireMode() == AUTOWIRE_CONSTRUCTOR ||
-				mbd.hasConstructorArgumentValues() || !ObjectUtils.isEmpty(args)) {
+		if (ctors != null || mbd.getResolvedAutowireMode() == AUTOWIRE_CONSTRUCTOR || mbd.hasConstructorArgumentValues() || !ObjectUtils.isEmpty(args)) {
+			// 调用有参构造器 实例化bean
 			return autowireConstructor(beanName, mbd, ctors, args);
 		}
 
@@ -1190,6 +1190,7 @@ public abstract class AbstractAutowireCapableBeanFactory extends AbstractBeanFac
 		}
 
 		// No special handling: simply use no-arg constructor.
+		// 调用无参构造器 实例化bean
 		return instantiateBean(beanName, mbd);
 	}
 
@@ -1286,17 +1287,14 @@ public abstract class AbstractAutowireCapableBeanFactory extends AbstractBeanFac
 				beanInstance = AccessController.doPrivileged((PrivilegedAction<Object>) () ->
 						getInstantiationStrategy().instantiate(mbd, beanName, parent),
 						getAccessControlContext());
-			}
-			else {
+			} else {
 				beanInstance = getInstantiationStrategy().instantiate(mbd, beanName, parent);
 			}
 			BeanWrapper bw = new BeanWrapperImpl(beanInstance);
 			initBeanWrapper(bw);
 			return bw;
-		}
-		catch (Throwable ex) {
-			throw new BeanCreationException(
-					mbd.getResourceDescription(), beanName, "Instantiation of bean failed", ex);
+		} catch (Throwable ex) {
+			throw new BeanCreationException(mbd.getResourceDescription(), beanName, "Instantiation of bean failed", ex);
 		}
 	}
 
@@ -1311,8 +1309,7 @@ public abstract class AbstractAutowireCapableBeanFactory extends AbstractBeanFac
 	 * @return a BeanWrapper for the new instance
 	 * @see #getBean(String, Object[])
 	 */
-	protected BeanWrapper instantiateUsingFactoryMethod(
-			String beanName, RootBeanDefinition mbd, @Nullable Object[] explicitArgs) {
+	protected BeanWrapper instantiateUsingFactoryMethod(String beanName, RootBeanDefinition mbd, @Nullable Object[] explicitArgs) {
 
 		return new ConstructorResolver(this).instantiateUsingFactoryMethod(beanName, mbd, explicitArgs);
 	}
@@ -1331,8 +1328,7 @@ public abstract class AbstractAutowireCapableBeanFactory extends AbstractBeanFac
 	 * or {@code null} if none (-> use constructor argument values from bean definition)
 	 * @return a BeanWrapper for the new instance
 	 */
-	protected BeanWrapper autowireConstructor(
-			String beanName, RootBeanDefinition mbd, @Nullable Constructor<?>[] ctors, @Nullable Object[] explicitArgs) {
+	protected BeanWrapper autowireConstructor(String beanName, RootBeanDefinition mbd, @Nullable Constructor<?>[] ctors, @Nullable Object[] explicitArgs) {
 
 		return new ConstructorResolver(this).autowireConstructor(beanName, mbd, ctors, explicitArgs);
 	}
@@ -1348,10 +1344,8 @@ public abstract class AbstractAutowireCapableBeanFactory extends AbstractBeanFac
 	protected void populateBean(String beanName, RootBeanDefinition mbd, @Nullable BeanWrapper bw) {
 		if (bw == null) {
 			if (mbd.hasPropertyValues()) {
-				throw new BeanCreationException(
-						mbd.getResourceDescription(), beanName, "Cannot apply property values to null instance");
-			}
-			else {
+				throw new BeanCreationException(mbd.getResourceDescription(), beanName, "Cannot apply property values to null instance");
+			} else {
 				// Skip property population phase for null instance.
 				return;
 			}

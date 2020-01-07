@@ -122,8 +122,7 @@ class ConstructorResolver {
 	 * or {@code null} if none (-> use constructor argument values from bean definition)
 	 * @return a BeanWrapper for the new instance
 	 */
-	public BeanWrapper autowireConstructor(String beanName, RootBeanDefinition mbd,
-			@Nullable Constructor<?>[] chosenCtors, @Nullable Object[] explicitArgs) {
+	public BeanWrapper autowireConstructor(String beanName, RootBeanDefinition mbd, @Nullable Constructor<?>[] chosenCtors, @Nullable Object[] explicitArgs) {
 
 		BeanWrapperImpl bw = new BeanWrapperImpl();
 		this.beanFactory.initBeanWrapper(bw);
@@ -296,8 +295,7 @@ class ConstructorResolver {
 		return bw;
 	}
 
-	private Object instantiate(
-			String beanName, RootBeanDefinition mbd, Constructor<?> constructorToUse, Object[] argsToUse) {
+	private Object instantiate(String beanName, RootBeanDefinition mbd, Constructor<?> constructorToUse, Object[] argsToUse) {
 
 		try {
 			InstantiationStrategy strategy = this.beanFactory.getInstantiationStrategy();
@@ -305,14 +303,12 @@ class ConstructorResolver {
 				return AccessController.doPrivileged((PrivilegedAction<Object>) () ->
 						strategy.instantiate(mbd, beanName, this.beanFactory, constructorToUse, argsToUse),
 						this.beanFactory.getAccessControlContext());
-			}
-			else {
+			} else {
 				return strategy.instantiate(mbd, beanName, this.beanFactory, constructorToUse, argsToUse);
 			}
 		}
 		catch (Throwable ex) {
-			throw new BeanCreationException(mbd.getResourceDescription(), beanName,
-					"Bean instantiation via constructor failed", ex);
+			throw new BeanCreationException(mbd.getResourceDescription(), beanName, "Bean instantiation via constructor failed", ex);
 		}
 	}
 
@@ -390,8 +386,7 @@ class ConstructorResolver {
 	 * method, or {@code null} if none (-> use constructor argument values from bean definition)
 	 * @return a BeanWrapper for the new instance
 	 */
-	public BeanWrapper instantiateUsingFactoryMethod(
-			String beanName, RootBeanDefinition mbd, @Nullable Object[] explicitArgs) {
+	public BeanWrapper instantiateUsingFactoryMethod(String beanName, RootBeanDefinition mbd, @Nullable Object[] explicitArgs) {
 
 		BeanWrapperImpl bw = new BeanWrapperImpl();
 		this.beanFactory.initBeanWrapper(bw);
@@ -403,8 +398,7 @@ class ConstructorResolver {
 		String factoryBeanName = mbd.getFactoryBeanName();
 		if (factoryBeanName != null) {
 			if (factoryBeanName.equals(beanName)) {
-				throw new BeanDefinitionStoreException(mbd.getResourceDescription(), beanName,
-						"factory-bean reference points back to the same bean definition");
+				throw new BeanDefinitionStoreException(mbd.getResourceDescription(), beanName, "factory-bean reference points back to the same bean definition");
 			}
 			factoryBean = this.beanFactory.getBean(factoryBeanName);
 			if (mbd.isSingleton() && this.beanFactory.containsSingleton(beanName)) {
@@ -412,12 +406,10 @@ class ConstructorResolver {
 			}
 			factoryClass = factoryBean.getClass();
 			isStatic = false;
-		}
-		else {
+		} else {
 			// It's a static factory method on the bean class.
 			if (!mbd.hasBeanClass()) {
-				throw new BeanDefinitionStoreException(mbd.getResourceDescription(), beanName,
-						"bean definition declares neither a bean class nor a factory-bean reference");
+				throw new BeanDefinitionStoreException(mbd.getResourceDescription(), beanName, "bean definition declares neither a bean class nor a factory-bean reference");
 			}
 			factoryBean = null;
 			factoryClass = mbd.getBeanClass();
@@ -593,8 +585,7 @@ class ConstructorResolver {
 					for (Object arg : explicitArgs) {
 						argTypes.add(arg != null ? arg.getClass().getSimpleName() : "null");
 					}
-				}
-				else if (resolvedValues != null) {
+				} else if (resolvedValues != null) {
 					Set<ValueHolder> valueHolders = new LinkedHashSet<>(resolvedValues.getArgumentCount());
 					valueHolders.addAll(resolvedValues.getIndexedArgumentValues().values());
 					valueHolders.addAll(resolvedValues.getGenericArgumentValues());
@@ -637,24 +628,17 @@ class ConstructorResolver {
 		return bw;
 	}
 
-	private Object instantiate(String beanName, RootBeanDefinition mbd,
-			@Nullable Object factoryBean, Method factoryMethod, Object[] args) {
-
+	private Object instantiate(String beanName, RootBeanDefinition mbd, @Nullable Object factoryBean, Method factoryMethod, Object[] args) {
 		try {
 			if (System.getSecurityManager() != null) {
 				return AccessController.doPrivileged((PrivilegedAction<Object>) () ->
-						this.beanFactory.getInstantiationStrategy().instantiate(
-								mbd, beanName, this.beanFactory, factoryBean, factoryMethod, args),
+						this.beanFactory.getInstantiationStrategy().instantiate(mbd, beanName, this.beanFactory, factoryBean, factoryMethod, args),
 						this.beanFactory.getAccessControlContext());
+			} else {
+				return this.beanFactory.getInstantiationStrategy().instantiate(mbd, beanName, this.beanFactory, factoryBean, factoryMethod, args);
 			}
-			else {
-				return this.beanFactory.getInstantiationStrategy().instantiate(
-						mbd, beanName, this.beanFactory, factoryBean, factoryMethod, args);
-			}
-		}
-		catch (Throwable ex) {
-			throw new BeanCreationException(mbd.getResourceDescription(), beanName,
-					"Bean instantiation via factory method failed", ex);
+		} catch (Throwable ex) {
+			throw new BeanCreationException(mbd.getResourceDescription(), beanName, "Bean instantiation via factory method failed", ex);
 		}
 	}
 

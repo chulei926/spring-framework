@@ -103,8 +103,7 @@ public class SimpleInstantiationStrategy implements InstantiationStrategy {
 	}
 
 	@Override
-	public Object instantiate(RootBeanDefinition bd, @Nullable String beanName, BeanFactory owner,
-			final Constructor<?> ctor, Object... args) {
+	public Object instantiate(RootBeanDefinition bd, @Nullable String beanName, BeanFactory owner, final Constructor<?> ctor, Object... args) {
 
 		if (!bd.hasMethodOverrides()) {
 			if (System.getSecurityManager() != null) {
@@ -115,8 +114,7 @@ public class SimpleInstantiationStrategy implements InstantiationStrategy {
 				});
 			}
 			return BeanUtils.instantiateClass(ctor, args);
-		}
-		else {
+		} else {
 			return instantiateWithMethodInjection(bd, beanName, owner, ctor, args);
 		}
 	}

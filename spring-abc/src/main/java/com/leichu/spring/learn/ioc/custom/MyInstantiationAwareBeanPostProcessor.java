@@ -10,7 +10,7 @@ public class MyInstantiationAwareBeanPostProcessor implements InstantiationAware
 		if ("user".equals(beanName)) {
 			System.out.println("User ---------> BeanPostProcessor ---------> MyInstantiationAwareBeanPostProcessor ---------> postProcessBeforeInstantiation 执行");
 		}
-		return null;
+		return beanClass;
 	}
 
 	@Override
@@ -18,6 +18,6 @@ public class MyInstantiationAwareBeanPostProcessor implements InstantiationAware
 		if ("user".equals(beanName)) {
 			System.out.println("User ---------> BeanPostProcessor ---------> MyInstantiationAwareBeanPostProcessor ---------> postProcessAfterInstantiation 执行");
 		}
-		return false;
+		return true;
 	}
 }
