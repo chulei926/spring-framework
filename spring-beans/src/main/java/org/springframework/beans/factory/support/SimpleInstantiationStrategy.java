@@ -165,9 +165,7 @@ public class SimpleInstantiationStrategy implements InstantiationStrategy {
 			}
 		}
 		catch (IllegalArgumentException ex) {
-			throw new BeanInstantiationException(factoryMethod,
-					"Illegal arguments to factory method '" + factoryMethod.getName() + "'; " +
-					"args: " + StringUtils.arrayToCommaDelimitedString(args), ex);
+			throw new BeanInstantiationException(factoryMethod, "Illegal arguments to factory method '" + factoryMethod.getName() + "'; " + "args: " + StringUtils.arrayToCommaDelimitedString(args), ex);
 		}
 		catch (IllegalAccessException ex) {
 			throw new BeanInstantiationException(factoryMethod,

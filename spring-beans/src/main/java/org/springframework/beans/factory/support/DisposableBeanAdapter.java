@@ -98,14 +98,12 @@ class DisposableBeanAdapter implements DisposableBean, Runnable, Serializable {
 	 * @param postProcessors the List of BeanPostProcessors
 	 * (potentially DestructionAwareBeanPostProcessor), if any
 	 */
-	public DisposableBeanAdapter(Object bean, String beanName, RootBeanDefinition beanDefinition,
-			List<BeanPostProcessor> postProcessors, @Nullable AccessControlContext acc) {
+	public DisposableBeanAdapter(Object bean, String beanName, RootBeanDefinition beanDefinition, List<BeanPostProcessor> postProcessors, @Nullable AccessControlContext acc) {
 
 		Assert.notNull(bean, "Disposable bean must not be null");
 		this.bean = bean;
 		this.beanName = beanName;
-		this.invokeDisposableBean =
-				(this.bean instanceof DisposableBean && !beanDefinition.isExternallyManagedDestroyMethod("destroy"));
+		this.invokeDisposableBean = (this.bean instanceof DisposableBean && !beanDefinition.isExternallyManagedDestroyMethod("destroy"));
 		this.nonPublicAccessAllowed = beanDefinition.isNonPublicAccessAllowed();
 		this.acc = acc;
 		String destroyMethodName = inferDestroyMethodIfNecessary(bean, beanDefinition);
@@ -115,19 +113,16 @@ class DisposableBeanAdapter implements DisposableBean, Runnable, Serializable {
 			Method destroyMethod = determineDestroyMethod(destroyMethodName);
 			if (destroyMethod == null) {
 				if (beanDefinition.isEnforceDestroyMethod()) {
-					throw new BeanDefinitionValidationException("Could not find a destroy method named '" +
-							destroyMethodName + "' on bean with name '" + beanName + "'");
+					throw new BeanDefinitionValidationException("Could not find a destroy method named '" + destroyMethodName + "' on bean with name '" + beanName + "'");
 				}
 			}
 			else {
 				Class<?>[] paramTypes = destroyMethod.getParameterTypes();
 				if (paramTypes.length > 1) {
-					throw new BeanDefinitionValidationException("Method '" + destroyMethodName + "' of bean '" +
-							beanName + "' has more than one parameter - not supported as destroy method");
+					throw new BeanDefinitionValidationException("Method '" + destroyMethodName + "' of bean '" + beanName + "' has more than one parameter - not supported as destroy method");
 				}
 				else if (paramTypes.length == 1 && boolean.class != paramTypes[0]) {
-					throw new BeanDefinitionValidationException("Method '" + destroyMethodName + "' of bean '" +
-							beanName + "' has a non-boolean parameter - not supported as destroy method");
+					throw new BeanDefinitionValidationException("Method '" + destroyMethodName + "' of bean '" + beanName + "' has a non-boolean parameter - not supported as destroy method");
 				}
 				destroyMethod = ClassUtils.getInterfaceMethodIfPossible(destroyMethod);
 			}

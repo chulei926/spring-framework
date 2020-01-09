@@ -555,6 +555,7 @@ public abstract class AbstractAutowireCapableBeanFactory extends AbstractBeanFac
 		synchronized (mbd.postProcessingLock) {
 			if (!mbd.postProcessed) {
 				try {
+					// 执行 实现了 MergedBeanDefinitionPostProcessor 接口的 postProcessMergedBeanDefinition 方法。
 					applyMergedBeanDefinitionPostProcessors(mbd, beanType, beanName);
 				} catch (Throwable ex) {
 					throw new BeanCreationException(mbd.getResourceDescription(), beanName, "Post-processing of merged bean definition failed", ex);
@@ -614,6 +615,7 @@ public abstract class AbstractAutowireCapableBeanFactory extends AbstractBeanFac
 
 		// Register bean as disposable.
 		try {
+			// 注册 bean 的 销毁方法
 			registerDisposableBeanIfNecessary(beanName, bean, mbd);
 		} catch (BeanDefinitionValidationException ex) {
 			throw new BeanCreationException(mbd.getResourceDescription(), beanName, "Invalid destruction signature", ex);
@@ -1143,8 +1145,7 @@ public abstract class AbstractAutowireCapableBeanFactory extends AbstractBeanFac
 		Class<?> beanClass = resolveBeanClass(mbd, beanName);
 
 		if (beanClass != null && !Modifier.isPublic(beanClass.getModifiers()) && !mbd.isNonPublicAccessAllowed()) {
-			throw new BeanCreationException(mbd.getResourceDescription(), beanName,
-					"Bean class isn't public, and non-public access not allowed: " + beanClass.getName());
+			throw new BeanCreationException(mbd.getResourceDescription(), beanName, "Bean class isn't public, and non-public access not allowed: " + beanClass.getName());
 		}
 
 		Supplier<?> instanceSupplier = mbd.getInstanceSupplier();
@@ -1414,7 +1415,7 @@ public abstract class AbstractAutowireCapableBeanFactory extends AbstractBeanFac
 		}
 
 		if (pvs != null) {
-			applyPropertyValues(beanName, mbd, bw, pvs);
+			applyPropertyValues(beanName, mbd, bw, pvs); // INTO
 		}
 	}
 
@@ -1636,8 +1637,7 @@ public abstract class AbstractAutowireCapableBeanFactory extends AbstractBeanFac
 					return;
 				}
 				catch (BeansException ex) {
-					throw new BeanCreationException(
-							mbd.getResourceDescription(), beanName, "Error setting property values", ex);
+					throw new BeanCreationException(mbd.getResourceDescription(), beanName, "Error setting property values", ex);
 				}
 			}
 			original = mpvs.getPropertyValueList();
@@ -1705,8 +1705,7 @@ public abstract class AbstractAutowireCapableBeanFactory extends AbstractBeanFac
 			bw.setPropertyValues(new MutablePropertyValues(deepCopy));
 		}
 		catch (BeansException ex) {
-			throw new BeanCreationException(
-					mbd.getResourceDescription(), beanName, "Error setting property values", ex);
+			throw new BeanCreationException(mbd.getResourceDescription(), beanName, "Error setting property values", ex);
 		}
 	}
 
@@ -1807,9 +1806,10 @@ public abstract class AbstractAutowireCapableBeanFactory extends AbstractBeanFac
 	 * @throws Throwable if thrown by init methods or by the invocation process
 	 * @see #invokeCustomInitMethod
 	 */
-	protected void invokeInitMethods(String beanName, final Object bean, @Nullable RootBeanDefinition mbd)
-			throws Throwable {
-
+	protected void invokeInitMethods(String beanName, final Object bean, @Nullable RootBeanDefinition mbd) throws Throwable {
+		// 判断是否实现了 InitializingBean 接口
+		// 如果实现了 InitializingBean 接口，调用 InitializingBean 的 afterPropertiesSet 方法。
+		// 判断是否自定义了init-method 方法，如果有，执行 init-method 方法。
 		boolean isInitializingBean = (bean instanceof InitializingBean);
 		if (isInitializingBean && (mbd == null || !mbd.isExternallyManagedInitMethod("afterPropertiesSet"))) {
 			if (logger.isTraceEnabled()) {

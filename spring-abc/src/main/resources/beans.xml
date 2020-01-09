@@ -5,8 +5,7 @@
 
 	<context:property-placeholder location="classpath:config.properties"/>
 
-	<bean class="com.leichu.spring.learn.ioc.custom.MyBeanPostProcessor"/>
-	<bean class="com.leichu.spring.learn.ioc.custom.MyInstantiationAwareBeanPostProcessor"/>
+	<bean class="com.leichu.spring.learn.bean.custom.MyBeanPostProcessor"/>
 
 	<!--使用无参构造器-->
 	<bean id="user" class="com.leichu.spring.learn.common.model.User" init-method="myInit" destroy-method="myDestroy">
@@ -14,9 +13,9 @@
 		<property name="age" value="10"/>
 	</bean>
 	<!--使用有参构造器-->
-	<!--		<bean id="user" class="com.leichu.spring.learn.common.model.User" init-method="myInit" destroy-method="myDestroy">-->
-	<!--			<constructor-arg name="name" value="${user.name}"/>-->
-	<!--			<constructor-arg name="age" value="10"/>-->
-	<!--		</bean>-->
+<!--			<bean id="user" class="com.leichu.spring.learn.common.model.User" init-method="myInit" destroy-method="myDestroy">-->
+<!--				<constructor-arg name="name" value="${user.name}"/>-->
+<!--				<constructor-arg name="age" value="10"/>-->
+<!--			</bean>-->
 
 </beans>

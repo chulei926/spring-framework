@@ -239,8 +239,7 @@ public abstract class AbstractNestablePropertyAccessor extends AbstractPropertyA
 			nestedPa = getPropertyAccessorForPropertyPath(propertyName);
 		}
 		catch (NotReadablePropertyException ex) {
-			throw new NotWritablePropertyException(getRootClass(), this.nestedPath + propertyName,
-					"Nested property in path '" + propertyName + "' does not exist", ex);
+			throw new NotWritablePropertyException(getRootClass(), this.nestedPath + propertyName, "Nested property in path '" + propertyName + "' does not exist", ex);
 		}
 		PropertyTokenHolder tokens = getPropertyNameTokens(getFinalPath(nestedPa, propertyName));
 		nestedPa.setPropertyValue(tokens, new PropertyValue(propertyName, value));
@@ -256,8 +255,7 @@ public abstract class AbstractNestablePropertyAccessor extends AbstractPropertyA
 				nestedPa = getPropertyAccessorForPropertyPath(propertyName);
 			}
 			catch (NotReadablePropertyException ex) {
-				throw new NotWritablePropertyException(getRootClass(), this.nestedPath + propertyName,
-						"Nested property in path '" + propertyName + "' does not exist", ex);
+				throw new NotWritablePropertyException(getRootClass(), this.nestedPath + propertyName, "Nested property in path '" + propertyName + "' does not exist", ex);
 			}
 			tokens = getPropertyNameTokens(getFinalPath(nestedPa, propertyName));
 			if (nestedPa == this) {
@@ -413,13 +411,13 @@ public abstract class AbstractNestablePropertyAccessor extends AbstractPropertyA
 	}
 
 	private void processLocalProperty(PropertyTokenHolder tokens, PropertyValue pv) {
-		PropertyHandler ph = getLocalPropertyHandler(tokens.actualName);
+		PropertyHandler ph = getLocalPropertyHandler(tokens.actualName); // BeanWrapperImpl$BeanPropertyHandler
 		if (ph == null || !ph.isWritable()) {
 			if (pv.isOptional()) {
-				if (logger.isDebugEnabled()) {
-					logger.debug("Ignoring optional value for property '" + tokens.actualName +
-							"' - property not found on bean class [" + getRootClass().getName() + "]");
-				}
+//				if (logger.isDebugEnabled()) {
+//					logger.debug("Ignoring optional value for property '" + tokens.actualName +
+//							"' - property not found on bean class [" + getRootClass().getName() + "]");
+//				}
 				return;
 			}
 			else {

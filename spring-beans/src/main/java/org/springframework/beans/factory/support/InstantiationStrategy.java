@@ -36,6 +36,7 @@ import org.springframework.lang.Nullable;
 public interface InstantiationStrategy {
 
 	/**
+	 * <b>通过无参构造器实例化对象</b><br/>
 	 * Return an instance of the bean with the given name in this factory.
 	 * @param bd the bean definition
 	 * @param beanName the name of the bean when it is created in this context.
@@ -45,10 +46,10 @@ public interface InstantiationStrategy {
 	 * @return a bean instance for this bean definition
 	 * @throws BeansException if the instantiation attempt failed
 	 */
-	Object instantiate(RootBeanDefinition bd, @Nullable String beanName, BeanFactory owner)
-			throws BeansException;
+	Object instantiate(RootBeanDefinition bd, @Nullable String beanName, BeanFactory owner) throws BeansException;
 
 	/**
+	 * <b>通过有参构造器实例化对象</b><br/>
 	 * Return an instance of the bean with the given name in this factory,
 	 * creating it via the given constructor.
 	 * @param bd the bean definition
@@ -61,10 +62,10 @@ public interface InstantiationStrategy {
 	 * @return a bean instance for this bean definition
 	 * @throws BeansException if the instantiation attempt failed
 	 */
-	Object instantiate(RootBeanDefinition bd, @Nullable String beanName, BeanFactory owner,
-			Constructor<?> ctor, Object... args) throws BeansException;
+	Object instantiate(RootBeanDefinition bd, @Nullable String beanName, BeanFactory owner, Constructor<?> ctor, Object... args) throws BeansException;
 
 	/**
+	 * <b>通过工厂方法 实例化对象</b><br/>
 	 * Return an instance of the bean with the given name in this factory,
 	 * creating it via the given factory method.
 	 * @param bd the bean definition
@@ -79,8 +80,7 @@ public interface InstantiationStrategy {
 	 * @return a bean instance for this bean definition
 	 * @throws BeansException if the instantiation attempt failed
 	 */
-	Object instantiate(RootBeanDefinition bd, @Nullable String beanName, BeanFactory owner,
-			@Nullable Object factoryBean, Method factoryMethod, Object... args)
+	Object instantiate(RootBeanDefinition bd, @Nullable String beanName, BeanFactory owner, @Nullable Object factoryBean, Method factoryMethod, Object... args)
 			throws BeansException;
 
 }

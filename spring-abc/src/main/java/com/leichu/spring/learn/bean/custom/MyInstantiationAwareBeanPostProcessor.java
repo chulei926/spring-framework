@@ -1,4 +1,4 @@
-package com.leichu.spring.learn.ioc.custom;
+package com.leichu.spring.learn.bean.custom;
 
 import org.springframework.beans.BeansException;
 import org.springframework.beans.factory.config.InstantiationAwareBeanPostProcessor;

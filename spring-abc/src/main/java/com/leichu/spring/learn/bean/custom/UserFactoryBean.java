@@ -1,4 +1,4 @@
-package com.leichu.spring.learn.ioc.custom;
+package com.leichu.spring.learn.bean.custom;
 
 import com.leichu.spring.learn.common.model.User;
 import org.springframework.beans.factory.FactoryBean;

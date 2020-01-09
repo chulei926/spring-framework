@@ -1,9 +1,9 @@
-package com.leichu.spring.learn.ioc;
+package com.leichu.spring.learn.bean;
 
 import com.leichu.spring.learn.common.model.User;
 import org.springframework.context.support.ClassPathXmlApplicationContext;
 
-public class XmlContextTest {
+public class BeanTest4XML {
 
 	public static void main(String[] args) {
 		ClassPathXmlApplicationContext ctx = new ClassPathXmlApplicationContext("beans.xml");

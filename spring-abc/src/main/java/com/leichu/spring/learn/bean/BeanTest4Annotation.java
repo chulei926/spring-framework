@@ -1,16 +1,17 @@
-package com.leichu.spring.learn.ioc;
+package com.leichu.spring.learn.bean;
 
 import com.leichu.spring.learn.common.model.User;
-import com.leichu.spring.learn.ioc.custom.MyBeanFactoryPostProcessor;
-import com.leichu.spring.learn.ioc.custom.MyBeanPostProcessor;
+import com.leichu.spring.learn.bean.custom.MyBeanFactoryPostProcessor;
+import com.leichu.spring.learn.bean.custom.MyBeanPostProcessor;
 import org.springframework.beans.factory.annotation.Configurable;
 import org.springframework.beans.factory.config.BeanFactoryPostProcessor;
 import org.springframework.beans.factory.config.BeanPostProcessor;
 import org.springframework.context.annotation.AnnotationConfigApplicationContext;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.ComponentScan;
+import org.springframework.context.annotation.Import;
 
-public class AnnotationContextTest {
+public class BeanTest4Annotation {
 
 	public static void main(String[] args) {
 		AnnotationConfigApplicationContext ctx = new AnnotationConfigApplicationContext(AnnotationConfig.class);
@@ -29,15 +30,15 @@ class AnnotationConfig {
 //		return new UserFactoryBean();
 //	}
 
-	@Bean
-	public BeanFactoryPostProcessor myBeanFactoryPostProcessor() {
-		return new MyBeanFactoryPostProcessor();
-	}
+//	@Bean
+//	public BeanFactoryPostProcessor myBeanFactoryPostProcessor() {
+//		return new MyBeanFactoryPostProcessor();
+//	}
 
-	@Bean
-	public BeanPostProcessor myBeanPostProcessor() {
-		return new MyBeanPostProcessor();
-	}
+//	@Bean
+//	public BeanPostProcessor myBeanPostProcessor() {
+//		return new MyBeanPostProcessor();
+//	}
 
 	@Bean(initMethod = "myInit", destroyMethod = "myDestroy")
 	public User user() {
