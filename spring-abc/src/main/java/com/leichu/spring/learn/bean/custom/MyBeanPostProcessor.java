@@ -15,6 +15,11 @@ public class MyBeanPostProcessor implements BeanPostProcessor {
 		if ("user".equals(beanName)) {
 			System.out.println("User ---------> BeanPostProcessor ---------> postProcessBeforeInitialization 执行   ---------> 所有初始化方法调用之前执行");
 		}
+
+		if ("userService".equals(beanName)) {
+			System.out.println("UserServiceImpl ---------> BeanPostProcessor ---------> postProcessBeforeInitialization 执行   ---------> 所有初始化方法调用之前执行");
+		}
+
 		return bean;
 	}
 
@@ -22,6 +27,10 @@ public class MyBeanPostProcessor implements BeanPostProcessor {
 	public Object postProcessAfterInitialization(Object bean, String beanName) throws BeansException {
 		if ("user".equals(beanName)) {
 			System.out.println("User ---------> BeanPostProcessor ---------> postProcessAfterInitialization 执行  ---------> 所有初始化方法调用之后执行");
+		}
+
+		if ("userService".equals(beanName)) {
+			System.out.println("UserServiceImpl ---------> BeanPostProcessor ---------> postProcessAfterInitialization 执行  ---------> 所有初始化方法调用之后执行");
 		}
 		return bean;
 	}

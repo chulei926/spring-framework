@@ -249,7 +249,9 @@ public class AnnotatedBeanDefinitionReader {
 	private <T> void doRegisterBean(Class<T> beanClass, @Nullable String name,
 			@Nullable Class<? extends Annotation>[] qualifiers, @Nullable Supplier<T> supplier,
 			@Nullable BeanDefinitionCustomizer[] customizers) {
-
+		// 如果是 配置类 + 注解 的方式注册bean，在 创建 AnnotatedGenericBeanDefinition 的时候，会将该配置类的基本信息放到 BeanDefinition 中。
+		// 包括 配置类上面使用的注解信息。
+		// 具体的步骤，进入到 new AnnotatedGenericBeanDefinition(beanClass) 构造器内查看。
 		AnnotatedGenericBeanDefinition abd = new AnnotatedGenericBeanDefinition(beanClass);
 		if (this.conditionEvaluator.shouldSkip(abd.getMetadata())) {
 			return;

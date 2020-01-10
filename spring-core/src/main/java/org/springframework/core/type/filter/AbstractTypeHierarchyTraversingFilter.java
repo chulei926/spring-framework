@@ -54,8 +54,7 @@ public abstract class AbstractTypeHierarchyTraversingFilter implements TypeFilte
 
 
 	@Override
-	public boolean match(MetadataReader metadataReader, MetadataReaderFactory metadataReaderFactory)
-			throws IOException {
+	public boolean match(MetadataReader metadataReader, MetadataReaderFactory metadataReaderFactory) throws IOException {
 
 		// This method optimizes avoiding unnecessary creation of ClassReaders
 		// as well as visiting over those readers.
@@ -85,10 +84,10 @@ public abstract class AbstractTypeHierarchyTraversingFilter implements TypeFilte
 						}
 					}
 					catch (IOException ex) {
-						if (logger.isDebugEnabled()) {
-							logger.debug("Could not read super class [" + metadata.getSuperClassName() +
-									"] of type-filtered class [" + metadata.getClassName() + "]");
-						}
+//						if (logger.isDebugEnabled()) {
+//							logger.debug("Could not read super class [" + metadata.getSuperClassName() +
+//									"] of type-filtered class [" + metadata.getClassName() + "]");
+//						}
 					}
 				}
 			}

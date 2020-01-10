@@ -1,11 +1,14 @@
 package com.leichu.spring.learn.bean;
 
+import com.leichu.spring.learn.bean.custom.MyInstantiationAwareBeanPostProcessor;
 import com.leichu.spring.learn.common.model.User;
 import com.leichu.spring.learn.bean.custom.MyBeanFactoryPostProcessor;
 import com.leichu.spring.learn.bean.custom.MyBeanPostProcessor;
+import com.leichu.spring.learn.common.service.UserService;
 import org.springframework.beans.factory.annotation.Configurable;
 import org.springframework.beans.factory.config.BeanFactoryPostProcessor;
 import org.springframework.beans.factory.config.BeanPostProcessor;
+import org.springframework.beans.factory.config.InstantiationAwareBeanPostProcessor;
 import org.springframework.context.annotation.AnnotationConfigApplicationContext;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.ComponentScan;
@@ -15,15 +18,25 @@ public class BeanTest4Annotation {
 
 	public static void main(String[] args) {
 		AnnotationConfigApplicationContext ctx = new AnnotationConfigApplicationContext(AnnotationConfig.class);
-		User user = ctx.getBean(User.class);
-		System.out.println(user);
+//		User user = ctx.getBean(User.class);
+//		System.out.println(user);
+
+		UserService userService = ctx.getBean(UserService.class);
+		userService.say("leichu");
+
 		ctx.close();
 	}
 }
 
 @Configurable
-@ComponentScan("com.leichu")
+@ComponentScan("com.leichu.spring.learn.common.service")
 class AnnotationConfig {
+
+	@Bean
+	public InstantiationAwareBeanPostProcessor myInstantiationAwareBeanPostProcessor(){
+		return new MyInstantiationAwareBeanPostProcessor();
+	}
+
 
 //	@Bean
 //	public FactoryBean<User> userFactoryBean() {
@@ -35,16 +48,16 @@ class AnnotationConfig {
 //		return new MyBeanFactoryPostProcessor();
 //	}
 
-//	@Bean
-//	public BeanPostProcessor myBeanPostProcessor() {
-//		return new MyBeanPostProcessor();
-//	}
-
-	@Bean(initMethod = "myInit", destroyMethod = "myDestroy")
-	public User user() {
-		User user = new User();
-		user.setName("张三");
-		user.setAge(20);
-		return user;
+	@Bean
+	public BeanPostProcessor myBeanPostProcessor() {
+		return new MyBeanPostProcessor();
 	}
+
+//	@Bean(initMethod = "myInit", destroyMethod = "myDestroy")
+//	public User user() {
+//		User user = new User();
+//		user.setName("张三");
+//		user.setAge(20);
+//		return user;
+//	}
 }
