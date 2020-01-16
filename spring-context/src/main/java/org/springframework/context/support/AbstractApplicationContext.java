@@ -515,7 +515,7 @@ public abstract class AbstractApplicationContext extends DefaultResourceLoader
 	 * to the internal BeanFactory.
 	 */
 	public List<BeanFactoryPostProcessor> getBeanFactoryPostProcessors() {
-		System.err.println("--- 获取工厂后置处理器 getBeanFactoryPostProcessors 个数: " + this.beanFactoryPostProcessors.size());
+		System.out.println("--- 获取工厂后置处理器 getBeanFactoryPostProcessors 个数: " + this.beanFactoryPostProcessors.size());
 		for (BeanFactoryPostProcessor beanFactoryPostProcessor : this.beanFactoryPostProcessors) {
 			System.out.println(beanFactoryPostProcessor.getClass());
 		}
@@ -561,7 +561,7 @@ public abstract class AbstractApplicationContext extends DefaultResourceLoader
 			 * 此时，beanFactory 中的 beanDefinitionMap 已经有值.
 			 * 包括 spring 自带的几个类（RootBeanDefinition）， 还有自定义的一些类（ScannedGenericBeanDefinition）。
 			 */
-			System.err.println("--- 工厂创建完成 AbstractApplicationContext.beanFactory - DefaultListableBeanFactory ");
+			System.out.println("--- 工厂创建完成 AbstractApplicationContext.beanFactory - DefaultListableBeanFactory ");
 
 			////////////////////////////////////////////////////////////////////////////////
 //			for (String beanDefinitionName : beanFactory.getBeanDefinitionNames()) {
@@ -698,7 +698,7 @@ public abstract class AbstractApplicationContext extends DefaultResourceLoader
 	 * @see #getBeanFactory()
 	 */
 	protected ConfigurableListableBeanFactory obtainFreshBeanFactory() {
-		System.err.println("--- 开始创建工厂 obtainFreshBeanFactory ");
+		System.out.println("--- 开始创建工厂 obtainFreshBeanFactory ");
 		refreshBeanFactory();
 		return getBeanFactory();
 	}
@@ -710,7 +710,7 @@ public abstract class AbstractApplicationContext extends DefaultResourceLoader
 	 * @param beanFactory the BeanFactory to configure
 	 */
 	protected void prepareBeanFactory(ConfigurableListableBeanFactory beanFactory) {
-		System.err.println("--- 配置工厂 prepareBeanFactory ");
+		System.out.println("--- 配置工厂 prepareBeanFactory ");
 		// Tell the internal bean factory to use the context's class loader etc.
 		// 设置类加载器：存在则直接设置/不存在则新建一个默认类加载器
 		beanFactory.setBeanClassLoader(getClassLoader());
@@ -790,7 +790,7 @@ public abstract class AbstractApplicationContext extends DefaultResourceLoader
 	 * <p>Must be called before singleton instantiation.
 	 */
 	protected void invokeBeanFactoryPostProcessors(ConfigurableListableBeanFactory beanFactory) {
-		System.err.println("--- 执行 工厂后置处理器 ");
+		System.out.println("--- 执行 工厂后置处理器 ");
 		// 实例化 并 调用 所有已注册的 BeanFactoryPostProcessor
 		//
 		PostProcessorRegistrationDelegate.invokeBeanFactoryPostProcessors(beanFactory, getBeanFactoryPostProcessors());

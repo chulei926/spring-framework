@@ -197,7 +197,7 @@ public class DefaultListableBeanFactory extends AbstractAutowireCapableBeanFacto
 	 */
 	public DefaultListableBeanFactory(@Nullable BeanFactory parentBeanFactory) {
 		super(parentBeanFactory);
-		System.err.println("--- DefaultListableBeanFactory.DefaultListableBeanFactory(BeanFactory) ");
+		System.out.println("--- DefaultListableBeanFactory.DefaultListableBeanFactory(BeanFactory) ");
 	}
 
 
@@ -907,7 +907,7 @@ public class DefaultListableBeanFactory extends AbstractAutowireCapableBeanFacto
 
 	@Override
 	public void registerBeanDefinition(String beanName, BeanDefinition beanDefinition) throws BeanDefinitionStoreException {
-		System.err.println("--- 创建工厂 之 注册 BeanDefinition 到 beanDefinitionMap （DefaultListableBeanFactory.registerBeanDefinition） " + beanName);
+		System.out.println("--- 创建工厂 之 注册 BeanDefinition 到 beanDefinitionMap （DefaultListableBeanFactory.registerBeanDefinition） " + beanName);
 		/**
 		 * TODO 重要！！！
 		 * 将 beanDefinition 放入 beanDefinitionMap.

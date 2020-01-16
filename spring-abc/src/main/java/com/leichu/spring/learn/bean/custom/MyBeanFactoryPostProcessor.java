@@ -7,11 +7,11 @@ import org.springframework.beans.factory.config.ConfigurableListableBeanFactory;
 public class MyBeanFactoryPostProcessor implements BeanFactoryPostProcessor {
 
 	public MyBeanFactoryPostProcessor() {
-		System.err.println("--- 注册了 MyBeanFactoryPostProcessor ");
+		System.out.println("--- 注册了 MyBeanFactoryPostProcessor ");
 	}
 
 	@Override
 	public void postProcessBeanFactory(ConfigurableListableBeanFactory beanFactory) throws BeansException {
-		System.err.println("--- 执行了 MyBeanFactoryPostProcessor ");
+		System.out.println("--- 执行了 MyBeanFactoryPostProcessor ");
 	}
 }

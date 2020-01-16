@@ -319,11 +319,11 @@ public class XmlBeanDefinitionReader extends AbstractBeanDefinitionReader {
 //		if (logger.isTraceEnabled()) {
 //			logger.trace("Loading XML bean definitions from " + encodedResource);
 //		}
-		System.err.println("--- 创建工厂 之 加载 BeanDefinition （XmlBeanDefinitionReader.loadBeanDefinitions(EncodedResource)）");
+		System.out.println("--- 创建工厂 之 加载 BeanDefinition （XmlBeanDefinitionReader.loadBeanDefinitions(EncodedResource)）");
 		Set<EncodedResource> currentResources = this.resourcesCurrentlyBeingLoaded.get();
 		if (currentResources == null) {
 			currentResources = new HashSet<>(4);
-			System.err.println("--- 创建工厂 之 设置正在加载的 BeanDefinition 到 ThreadLocal<Set<EncodedResource>> ");
+			System.out.println("--- 创建工厂 之 设置正在加载的 BeanDefinition 到 ThreadLocal<Set<EncodedResource>> ");
 			this.resourcesCurrentlyBeingLoaded.set(currentResources);
 		}
 		/**
@@ -346,7 +346,7 @@ public class XmlBeanDefinitionReader extends AbstractBeanDefinitionReader {
 
 		try {
 			InputStream inputStream = encodedResource.getResource().getInputStream();
-			System.err.println("--- 创建工厂 之 从 Resource 中获取 InputStream，创建 InputSource");
+			System.out.println("--- 创建工厂 之 从 Resource 中获取 InputStream，创建 InputSource");
 			try {
 				InputSource inputSource = new InputSource(inputStream);
 				if (encodedResource.getEncoding() != null) {
@@ -405,7 +405,7 @@ public class XmlBeanDefinitionReader extends AbstractBeanDefinitionReader {
 	 * @see #registerBeanDefinitions
 	 */
 	protected int doLoadBeanDefinitions(InputSource inputSource, Resource resource) throws BeanDefinitionStoreException {
-		System.err.println("--- 创建工厂 之 正式从 xml 加载 BeanDefinition ");
+		System.out.println("--- 创建工厂 之 正式从 xml 加载 BeanDefinition ");
 		try {
 			Document doc = doLoadDocument(inputSource, resource); // ?
 			int count = registerBeanDefinitions(doc, resource);
@@ -438,7 +438,7 @@ public class XmlBeanDefinitionReader extends AbstractBeanDefinitionReader {
 	 * @see DocumentLoader#loadDocument
 	 */
 	protected Document doLoadDocument(InputSource inputSource, Resource resource) throws Exception {
-		System.err.println("--- 创建工厂 之 把 xml 文件转换为 Document ");
+		System.out.println("--- 创建工厂 之 把 xml 文件转换为 Document ");
 		return this.documentLoader.loadDocument(inputSource, getEntityResolver(), this.errorHandler,
 				getValidationModeForResource(resource), isNamespaceAware());
 	}
@@ -517,7 +517,7 @@ public class XmlBeanDefinitionReader extends AbstractBeanDefinitionReader {
 	 * @see BeanDefinitionDocumentReader#registerBeanDefinitions
 	 */
 	public int registerBeanDefinitions(Document doc, Resource resource) throws BeanDefinitionStoreException {
-		System.err.println("--- 创建工厂 之 从 Document 中 解析出 BeanDefinition，并注册。（XmlBeanDefinitionReader.registerBeanDefinitions）");
+		System.out.println("--- 创建工厂 之 从 Document 中 解析出 BeanDefinition，并注册。（XmlBeanDefinitionReader.registerBeanDefinitions）");
 		BeanDefinitionDocumentReader documentReader = createBeanDefinitionDocumentReader(); // DefaultBeanDefinitionDocumentReader
 		int countBefore = getRegistry().getBeanDefinitionCount();
 		documentReader.registerBeanDefinitions(doc, createReaderContext(resource));
@@ -531,7 +531,7 @@ public class XmlBeanDefinitionReader extends AbstractBeanDefinitionReader {
 	 * @see #setDocumentReaderClass
 	 */
 	protected BeanDefinitionDocumentReader createBeanDefinitionDocumentReader() {
-		System.err.println("--- 创建工厂 之  创建 BeanDefinitionDocument 读取器 BeanDefinitionDocumentReader ");
+		System.out.println("--- 创建工厂 之  创建 BeanDefinitionDocument 读取器 BeanDefinitionDocumentReader ");
 		return BeanUtils.instantiateClass(this.documentReaderClass);
 	}
 

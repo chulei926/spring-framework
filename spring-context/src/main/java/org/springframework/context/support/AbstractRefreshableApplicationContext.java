@@ -124,7 +124,6 @@ public abstract class AbstractRefreshableApplicationContext extends AbstractAppl
 	protected final void refreshBeanFactory() throws BeansException {
 
 		if (hasBeanFactory()) {
-			System.err.println("-------------------- AbstractRefreshableApplicationContext.refreshBeanFactory已经有工厂，先销毁 --------------------");
 			destroyBeans();
 			closeBeanFactory();
 		}
@@ -206,7 +205,7 @@ public abstract class AbstractRefreshableApplicationContext extends AbstractAppl
 	 * @see org.springframework.beans.factory.support.DefaultListableBeanFactory#setAllowRawInjectionDespiteWrapping
 	 */
 	protected DefaultListableBeanFactory createBeanFactory() {
-		System.err.println("--- AbstractRefreshableApplicationContext.createBeanFactory ");
+		System.out.println("--- AbstractRefreshableApplicationContext.createBeanFactory ");
 		return new DefaultListableBeanFactory(getInternalParentBeanFactory());
 //		return new DefaultListableBeanFactory(); // by leichu test
 	}
@@ -226,7 +225,7 @@ public abstract class AbstractRefreshableApplicationContext extends AbstractAppl
 	 * @see DefaultListableBeanFactory#setAllowEagerClassLoading
 	 */
 	protected void customizeBeanFactory(DefaultListableBeanFactory beanFactory) {
-		System.err.println("--- 创建工厂 之 自定义工厂 customizeBeanFactory ");
+		System.out.println("--- 创建工厂 之 自定义工厂 customizeBeanFactory ");
 		// 配置了bean是否允许被覆盖，如果允许，beanDefinitionMap 有重复的key存在时就会覆盖，否则就会抛异常。
 		// 在 org.springframework.beans.factory.support.DefaultListableBeanFactory.registerBeanDefinition 方法中有体现。
 		// 默认值 = true

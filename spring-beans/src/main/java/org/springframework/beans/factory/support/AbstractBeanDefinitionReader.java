@@ -250,7 +250,7 @@ public abstract class AbstractBeanDefinitionReader implements BeanDefinitionRead
 
 	@Override
 	public int loadBeanDefinitions(String... locations) throws BeanDefinitionStoreException {
-		System.err.println("--- 创建工厂 之 加载 BeanDefinition （AbstractBeanDefinitionReader.loadBeanDefinitions(java.lang.String...)）");
+		System.out.println("--- 创建工厂 之 加载 BeanDefinition （AbstractBeanDefinitionReader.loadBeanDefinitions(java.lang.String...)）");
 		Assert.notNull(locations, "Location array must not be null");
 		int count = 0;
 		for (String location : locations) {

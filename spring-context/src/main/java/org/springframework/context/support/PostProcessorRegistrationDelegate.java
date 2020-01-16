@@ -44,7 +44,7 @@ final class PostProcessorRegistrationDelegate {
 
 
 	public static void invokeBeanFactoryPostProcessors(ConfigurableListableBeanFactory beanFactory, List<BeanFactoryPostProcessor> beanFactoryPostProcessors) {
-		System.err.println("--- 开始执行工厂后置处理器 invokeBeanFactoryPostProcessors 个数： " + beanFactoryPostProcessors.size());
+		System.out.println("--- 开始执行工厂后置处理器 invokeBeanFactoryPostProcessors 个数： " + beanFactoryPostProcessors.size());
 		// Invoke BeanDefinitionRegistryPostProcessors first, if any.
 		Set<String> processedBeans = new HashSet<>();
 		// 1. 判断 beanFactory 是否为 BeanDefinitionRegistry，beanFactory 为 DefaultListableBeanFactory，
@@ -346,9 +346,9 @@ final class PostProcessorRegistrationDelegate {
 	 * Invoke the given BeanDefinitionRegistryPostProcessor beans.
 	 */
 	private static void invokeBeanDefinitionRegistryPostProcessors(Collection<? extends BeanDefinitionRegistryPostProcessor> postProcessors, BeanDefinitionRegistry registry) {
-		System.err.println("--- 开始执行 BeanDefinitionRegistry 后置处理器 invokeBeanDefinitionRegistryPostProcessors 个数： " + postProcessors.size());
+		System.out.println("--- 开始执行 BeanDefinitionRegistry 后置处理器 invokeBeanDefinitionRegistryPostProcessors 个数： " + postProcessors.size());
 		for (BeanDefinitionRegistryPostProcessor postProcessor : postProcessors) {
-			System.err.println("---------- 执行：" + postProcessor.getClass());
+			System.out.println("---------- 执行：" + postProcessor.getClass());
 			postProcessor.postProcessBeanDefinitionRegistry(registry);
 		}
 	}

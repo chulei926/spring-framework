@@ -57,7 +57,7 @@ class ApplicationListenerDetector implements DestructionAwareBeanPostProcessor, 
 
 
 	public ApplicationListenerDetector(AbstractApplicationContext applicationContext) {
-		System.err.println("--- 开始配置工厂之 ApplicationListenerDetector ");
+		System.out.println("--- 开始配置工厂之 ApplicationListenerDetector ");
 		this.applicationContext = applicationContext;
 	}
 

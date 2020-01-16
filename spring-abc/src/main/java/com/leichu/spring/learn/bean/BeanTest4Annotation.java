@@ -1,18 +1,15 @@
 package com.leichu.spring.learn.bean;
 
+import com.leichu.spring.learn.bean.custom.MyImportBeanDefinitionRegistrar;
 import com.leichu.spring.learn.bean.custom.MyInstantiationAwareBeanPostProcessor;
+import com.leichu.spring.learn.common.model.Student;
 import com.leichu.spring.learn.common.model.User;
-import com.leichu.spring.learn.bean.custom.MyBeanFactoryPostProcessor;
 import com.leichu.spring.learn.bean.custom.MyBeanPostProcessor;
 import com.leichu.spring.learn.common.service.UserService;
 import org.springframework.beans.factory.annotation.Configurable;
-import org.springframework.beans.factory.config.BeanFactoryPostProcessor;
 import org.springframework.beans.factory.config.BeanPostProcessor;
 import org.springframework.beans.factory.config.InstantiationAwareBeanPostProcessor;
-import org.springframework.context.annotation.AnnotationConfigApplicationContext;
-import org.springframework.context.annotation.Bean;
-import org.springframework.context.annotation.ComponentScan;
-import org.springframework.context.annotation.Import;
+import org.springframework.context.annotation.*;
 
 public class BeanTest4Annotation {
 
@@ -24,12 +21,17 @@ public class BeanTest4Annotation {
 		UserService userService = ctx.getBean(UserService.class);
 		userService.say("leichu");
 
+		Student stu = ctx.getBean(Student.class);
+		System.out.println(stu);
+
 		ctx.close();
 	}
 }
 
+
 @Configurable
-@ComponentScan("com.leichu.spring.learn.common.service")
+@ComponentScan({"com.leichu.spring.learn.common.service", "com.leichu.spring.learn.common.dao"})
+@Import(MyImportBeanDefinitionRegistrar.class)
 class AnnotationConfig {
 
 	@Bean
@@ -53,11 +55,11 @@ class AnnotationConfig {
 		return new MyBeanPostProcessor();
 	}
 
-//	@Bean(initMethod = "myInit", destroyMethod = "myDestroy")
-//	public User user() {
-//		User user = new User();
-//		user.setName("张三");
-//		user.setAge(20);
-//		return user;
-//	}
+	@Bean(initMethod = "myInit", destroyMethod = "myDestroy")
+	public User user() {
+		User user = new User();
+		user.setName("张三");
+		user.setAge(20);
+		return user;
+	}
 }

@@ -79,7 +79,7 @@ public abstract class AbstractXmlApplicationContext extends AbstractRefreshableC
 	 */
 	@Override
 	protected void loadBeanDefinitions(DefaultListableBeanFactory beanFactory) throws BeansException, IOException {
-		System.err.println("--- 创建工厂 之 加载BeanDefinition （AbstractXmlApplicationContext.loadBeanDefinitions(DefaultListableBeanFactory)）");
+		System.out.println("--- 创建工厂 之 加载BeanDefinition （AbstractXmlApplicationContext.loadBeanDefinitions(DefaultListableBeanFactory)）");
 		// Create a new XmlBeanDefinitionReader for the given BeanFactory.
 		XmlBeanDefinitionReader beanDefinitionReader = new XmlBeanDefinitionReader(beanFactory);
 		// Configure the bean definition reader with this context's
@@ -103,7 +103,7 @@ public abstract class AbstractXmlApplicationContext extends AbstractRefreshableC
 	 * @see org.springframework.beans.factory.xml.XmlBeanDefinitionReader#setDocumentReaderClass
 	 */
 	protected void initBeanDefinitionReader(XmlBeanDefinitionReader reader) {
-		System.err.println("--- 创建工厂 之 初始化 BeanDefinitionReader");
+		System.out.println("--- 创建工厂 之 初始化 BeanDefinitionReader");
 		reader.setValidating(this.validating);
 	}
 
@@ -120,7 +120,7 @@ public abstract class AbstractXmlApplicationContext extends AbstractRefreshableC
 	 * @see #getResourcePatternResolver
 	 */
 	protected void loadBeanDefinitions(XmlBeanDefinitionReader reader) throws BeansException, IOException {
-		System.err.println("--- 创建工厂 之 加载 BeanDefinitionReader （AbstractXmlApplicationContext.loadBeanDefinitions(XmlBeanDefinitionReader)）");
+		System.out.println("--- 创建工厂 之 加载 BeanDefinitionReader （AbstractXmlApplicationContext.loadBeanDefinitions(XmlBeanDefinitionReader)）");
 		Resource[] configResources = getConfigResources(); // 这里返回 null。
 		if (configResources != null) {
 			reader.loadBeanDefinitions(configResources);

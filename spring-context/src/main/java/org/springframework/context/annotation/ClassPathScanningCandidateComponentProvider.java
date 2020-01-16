@@ -410,7 +410,7 @@ public class ClassPathScanningCandidateComponentProvider implements EnvironmentC
 	}
 
 	private Set<BeanDefinition> scanCandidateComponents(String basePackage) {
-		System.err.println("--- 创建工厂 之 扫描包下面的 bean，生成 BeanDefinition （ClassPathBeanDefinitionScanner.scanCandidateComponents） ");
+		System.out.println("--- 创建工厂 之 扫描包下面的 bean，生成 BeanDefinition （ClassPathBeanDefinitionScanner.scanCandidateComponents） ");
 		Set<BeanDefinition> candidates = new LinkedHashSet<>();
 		try {
 			String packageSearchPath = ResourcePatternResolver.CLASSPATH_ALL_URL_PREFIX + resolveBasePackage(basePackage) + '/' + this.resourcePattern;
