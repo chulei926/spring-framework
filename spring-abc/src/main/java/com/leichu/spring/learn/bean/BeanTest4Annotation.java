@@ -1,15 +1,18 @@
 package com.leichu.spring.learn.bean;
 
+import com.leichu.spring.learn.bean.custom.MyBeanPostProcessor;
 import com.leichu.spring.learn.bean.custom.MyImportBeanDefinitionRegistrar;
 import com.leichu.spring.learn.bean.custom.MyInstantiationAwareBeanPostProcessor;
 import com.leichu.spring.learn.common.model.Student;
 import com.leichu.spring.learn.common.model.User;
-import com.leichu.spring.learn.bean.custom.MyBeanPostProcessor;
 import com.leichu.spring.learn.common.service.UserService;
 import org.springframework.beans.factory.annotation.Configurable;
 import org.springframework.beans.factory.config.BeanPostProcessor;
 import org.springframework.beans.factory.config.InstantiationAwareBeanPostProcessor;
-import org.springframework.context.annotation.*;
+import org.springframework.context.annotation.AnnotationConfigApplicationContext;
+import org.springframework.context.annotation.Bean;
+import org.springframework.context.annotation.ComponentScan;
+import org.springframework.context.annotation.Import;
 
 public class BeanTest4Annotation {
 
@@ -26,18 +29,16 @@ public class BeanTest4Annotation {
 
 		ctx.close();
 	}
-}
 
+	@Configurable
+	@ComponentScan({"com.leichu.spring.learn.common.service", "com.leichu.spring.learn.common.dao"})
+	@Import(MyImportBeanDefinitionRegistrar.class)
+	static class AnnotationConfig {
 
-@Configurable
-@ComponentScan({"com.leichu.spring.learn.common.service", "com.leichu.spring.learn.common.dao"})
-@Import(MyImportBeanDefinitionRegistrar.class)
-class AnnotationConfig {
-
-	@Bean
-	public InstantiationAwareBeanPostProcessor myInstantiationAwareBeanPostProcessor(){
-		return new MyInstantiationAwareBeanPostProcessor();
-	}
+		@Bean
+		public InstantiationAwareBeanPostProcessor myInstantiationAwareBeanPostProcessor() {
+			return new MyInstantiationAwareBeanPostProcessor();
+		}
 
 
 //	@Bean
@@ -50,16 +51,17 @@ class AnnotationConfig {
 //		return new MyBeanFactoryPostProcessor();
 //	}
 
-	@Bean
-	public BeanPostProcessor myBeanPostProcessor() {
-		return new MyBeanPostProcessor();
-	}
+		@Bean
+		public BeanPostProcessor myBeanPostProcessor() {
+			return new MyBeanPostProcessor();
+		}
 
-	@Bean(initMethod = "myInit", destroyMethod = "myDestroy")
-	public User user() {
-		User user = new User();
-		user.setName("张三");
-		user.setAge(20);
-		return user;
+		@Bean(initMethod = "myInit", destroyMethod = "myDestroy")
+		public User user() {
+			User user = new User();
+			user.setName("张三");
+			user.setAge(20);
+			return user;
+		}
 	}
 }
