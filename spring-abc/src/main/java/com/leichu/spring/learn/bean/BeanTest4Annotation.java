@@ -30,38 +30,39 @@ public class BeanTest4Annotation {
 		ctx.close();
 	}
 
-	@Configurable
-	@ComponentScan({"com.leichu.spring.learn.common.service", "com.leichu.spring.learn.common.dao"})
-	@Import(MyImportBeanDefinitionRegistrar.class)
-	static class AnnotationConfig {
+	
+}
+@Configurable
+@ComponentScan({"com.leichu.spring.learn.common.service", "com.leichu.spring.learn.common.dao"})
+@Import(MyImportBeanDefinitionRegistrar.class)
+class AnnotationConfig {
 
-		@Bean
-		public InstantiationAwareBeanPostProcessor myInstantiationAwareBeanPostProcessor() {
-			return new MyInstantiationAwareBeanPostProcessor();
-		}
+	@Bean
+	public InstantiationAwareBeanPostProcessor myInstantiationAwareBeanPostProcessor() {
+		return new MyInstantiationAwareBeanPostProcessor();
+	}
 
 
-//	@Bean
-//	public FactoryBean<User> userFactoryBean() {
-//		return new UserFactoryBean();
-//	}
+//@Bean
+//public FactoryBean<User> userFactoryBean() {
+//	return new UserFactoryBean();
+//}
 
-//	@Bean
-//	public BeanFactoryPostProcessor myBeanFactoryPostProcessor() {
-//		return new MyBeanFactoryPostProcessor();
-//	}
+//@Bean
+//public BeanFactoryPostProcessor myBeanFactoryPostProcessor() {
+//	return new MyBeanFactoryPostProcessor();
+//}
 
-		@Bean
-		public BeanPostProcessor myBeanPostProcessor() {
-			return new MyBeanPostProcessor();
-		}
+	@Bean
+	public BeanPostProcessor myBeanPostProcessor() {
+		return new MyBeanPostProcessor();
+	}
 
-		@Bean(initMethod = "myInit", destroyMethod = "myDestroy")
-		public User user() {
-			User user = new User();
-			user.setName("张三");
-			user.setAge(20);
-			return user;
-		}
+	@Bean(initMethod = "myInit", destroyMethod = "myDestroy")
+	public User user() {
+		User user = new User();
+		user.setName("张三");
+		user.setAge(20);
+		return user;
 	}
 }
