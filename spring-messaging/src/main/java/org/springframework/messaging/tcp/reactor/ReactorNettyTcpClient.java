@@ -109,7 +109,8 @@ public class ReactorNettyTcpClient<P> implements TcpOperations<P> {
 
 		this.channelGroup = new DefaultChannelGroup(ImmediateEventExecutor.INSTANCE);
 		this.loopResources = LoopResources.create("tcp-client-loop");
-		this.poolResources = ConnectionProvider.elastic("tcp-client-pool");
+//		this.poolResources = ConnectionProvider.elastic("tcp-client-pool");
+		this.poolResources = ConnectionProvider.builder("tcp-client-pool").build();
 		this.codec = codec;
 
 		this.tcpClient = TcpClient.create(this.poolResources)
@@ -133,7 +134,8 @@ public class ReactorNettyTcpClient<P> implements TcpOperations<P> {
 
 		this.channelGroup = new DefaultChannelGroup(ImmediateEventExecutor.INSTANCE);
 		this.loopResources = LoopResources.create("tcp-client-loop");
-		this.poolResources = ConnectionProvider.elastic("tcp-client-pool");
+//		this.poolResources = ConnectionProvider.elastic("tcp-client-pool");
+		this.poolResources = ConnectionProvider.builder("tcp-client-pool").build();
 		this.codec = codec;
 
 		this.tcpClient = clientConfigurer.apply(TcpClient
