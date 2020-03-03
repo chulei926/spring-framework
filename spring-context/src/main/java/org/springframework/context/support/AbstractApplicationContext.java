@@ -517,7 +517,7 @@ public abstract class AbstractApplicationContext extends DefaultResourceLoader
 	public List<BeanFactoryPostProcessor> getBeanFactoryPostProcessors() {
 		System.out.println("--- 获取工厂后置处理器 getBeanFactoryPostProcessors 个数: " + this.beanFactoryPostProcessors.size());
 		for (BeanFactoryPostProcessor beanFactoryPostProcessor : this.beanFactoryPostProcessors) {
-			System.out.println(beanFactoryPostProcessor.getClass());
+			System.out.println("BeanFactoryPostProcessor -------------> " + beanFactoryPostProcessor.getClass());
 		}
 		return this.beanFactoryPostProcessors;
 	}
@@ -790,7 +790,7 @@ public abstract class AbstractApplicationContext extends DefaultResourceLoader
 	 * <p>Must be called before singleton instantiation.
 	 */
 	protected void invokeBeanFactoryPostProcessors(ConfigurableListableBeanFactory beanFactory) {
-		System.out.println("--- 执行 工厂后置处理器 ");
+		System.out.println("--- 执行 工厂后置处理器 BeanFactoryPostProcessor");
 		// 实例化 并 调用 所有已注册的 BeanFactoryPostProcessor
 		//
 		PostProcessorRegistrationDelegate.invokeBeanFactoryPostProcessors(beanFactory, getBeanFactoryPostProcessors());

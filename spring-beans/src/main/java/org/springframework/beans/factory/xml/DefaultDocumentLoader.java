@@ -70,9 +70,9 @@ public class DefaultDocumentLoader implements DocumentLoader {
 			ErrorHandler errorHandler, int validationMode, boolean namespaceAware) throws Exception {
 
 		DocumentBuilderFactory factory = createDocumentBuilderFactory(validationMode, namespaceAware);
-		if (logger.isTraceEnabled()) {
-			logger.trace("Using JAXP provider [" + factory.getClass().getName() + "]");
-		}
+//		if (logger.isTraceEnabled()) {
+//			logger.trace("Using JAXP provider [" + factory.getClass().getName() + "]");
+//		}
 		DocumentBuilder builder = createDocumentBuilder(factory, entityResolver, errorHandler);
 		return builder.parse(inputSource);
 	}
