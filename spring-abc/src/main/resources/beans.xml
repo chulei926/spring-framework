@@ -6,6 +6,7 @@
 	<context:property-placeholder location="classpath:config.properties"/>
 
 	<bean class="com.leichu.spring.learn.bean.custom.MyBeanPostProcessor"/>
+	<bean class="com.leichu.spring.learn.bean.custom.MyBeanFactoryPostProcessor"/>
 
 	<!--使用无参构造器-->
 	<bean id="user" class="com.leichu.spring.learn.common.model.User" init-method="myInit" destroy-method="myDestroy">

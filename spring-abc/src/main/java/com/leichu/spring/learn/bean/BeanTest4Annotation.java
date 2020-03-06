@@ -1,20 +1,15 @@
 package com.leichu.spring.learn.bean;
 
-import com.leichu.spring.learn.bean.custom.MyBeanFactoryPostProcessor;
-import com.leichu.spring.learn.bean.custom.MyBeanPostProcessor;
-import com.leichu.spring.learn.bean.custom.MyImportBeanDefinitionRegistrar;
-import com.leichu.spring.learn.bean.custom.MyInstantiationAwareBeanPostProcessor;
+import com.leichu.spring.learn.bean.custom.*;
 import com.leichu.spring.learn.common.model.Student;
 import com.leichu.spring.learn.common.model.User;
+import com.leichu.spring.learn.common.model.color.Black;
 import com.leichu.spring.learn.common.service.UserService;
 import org.springframework.beans.factory.annotation.Configurable;
 import org.springframework.beans.factory.config.BeanFactoryPostProcessor;
 import org.springframework.beans.factory.config.BeanPostProcessor;
 import org.springframework.beans.factory.config.InstantiationAwareBeanPostProcessor;
-import org.springframework.context.annotation.AnnotationConfigApplicationContext;
-import org.springframework.context.annotation.Bean;
-import org.springframework.context.annotation.ComponentScan;
-import org.springframework.context.annotation.Import;
+import org.springframework.context.annotation.*;
 
 public class BeanTest4Annotation {
 
@@ -22,12 +17,15 @@ public class BeanTest4Annotation {
 		AnnotationConfigApplicationContext ctx = new AnnotationConfigApplicationContext(AnnotationConfig.class);
 //		User user = ctx.getBean(User.class);
 //		System.out.println(user);
+		for (String name : ctx.getBeanDefinitionNames()) {
+			System.out.println("---------- >  " + name);
+		}
 
-		UserService userService = ctx.getBean(UserService.class);
-		userService.say("leichu");
-
-		Student stu = ctx.getBean(Student.class);
-		System.out.println(stu);
+//		UserService userService = ctx.getBean(UserService.class);
+//		userService.say("leichu");
+//
+//		Student stu = ctx.getBean(Student.class);
+//		System.out.println(stu);
 
 		ctx.close();
 	}
@@ -37,7 +35,7 @@ public class BeanTest4Annotation {
 
 @Configurable
 @ComponentScan({"com.leichu.spring.learn.common.service", "com.leichu.spring.learn.common.dao"})
-@Import(MyImportBeanDefinitionRegistrar.class)
+@Import({Black.class, MyImportBeanDefinitionRegistrar.class, MyImportSelector.class})
 class AnnotationConfig {
 
 	@Bean

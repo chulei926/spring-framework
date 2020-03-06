@@ -7,6 +7,9 @@ import org.springframework.beans.factory.support.RootBeanDefinition;
 import org.springframework.context.annotation.ImportBeanDefinitionRegistrar;
 import org.springframework.core.type.AnnotationMetadata;
 
+/**
+ * 通过 ImportBeanDefinitionRegistrar 往容器中注册 组件.
+ */
 public class MyImportBeanDefinitionRegistrar implements ImportBeanDefinitionRegistrar {
 
 	@Override

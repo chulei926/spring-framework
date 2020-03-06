@@ -215,7 +215,7 @@ public abstract class AbstractBeanDefinitionReader implements BeanDefinitionRead
 		// 此处的 ResourceLoader 是在前面 org.springframework.context.support.AbstractXmlApplicationContext.loadBeanDefinitions(org.springframework.beans.factory.support.DefaultListableBeanFactory)代码中
 		// beanDefinitionReader.setResourceLoader(this); 的这一句代码中赋值的。
 		// 这里指的是 ClassPathXmlApplicationContext。
-		ResourceLoader resourceLoader = getResourceLoader();
+		ResourceLoader resourceLoader = getResourceLoader(); // resourceLoader = ClassPathXmlApplicationContext
 		if (resourceLoader == null) {
 			throw new BeanDefinitionStoreException("Cannot load bean definitions from location [" + location + "]: no ResourceLoader available");
 		}

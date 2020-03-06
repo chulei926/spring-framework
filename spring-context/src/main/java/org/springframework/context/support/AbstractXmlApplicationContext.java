@@ -79,7 +79,7 @@ public abstract class AbstractXmlApplicationContext extends AbstractRefreshableC
 	 */
 	@Override
 	protected void loadBeanDefinitions(DefaultListableBeanFactory beanFactory) throws BeansException, IOException {
-		System.out.println("--- 创建工厂 之 加载BeanDefinition （AbstractXmlApplicationContext.loadBeanDefinitions(DefaultListableBeanFactory)）");
+		System.out.println("--- 创建工厂 之 加载 BeanDefinition （AbstractXmlApplicationContext.loadBeanDefinitions(DefaultListableBeanFactory)）");
 		// 为给定的 BeanFactory 创建一个新的读取器 XmlBeanDefinitionReader。
 		// 构造器需要的是一个  BeanDefinitionRegistry ，而 beanFactory 间接实现了 BeanDefinitionRegistry 接口。
 		// Create a new XmlBeanDefinitionReader for the given BeanFactory.
@@ -92,6 +92,7 @@ public abstract class AbstractXmlApplicationContext extends AbstractRefreshableC
 		// 设置资源加载器，需要的是一个 ResourceLoader，
 		// 而当前的 AbstractXmlApplicationContext 实现了 ResourceLoader 接口。
 		// 此处的 this , 如果使用的是 ClassPathXmlApplicationContext，那 this 就是 ClassPathXmlApplicationContext。
+		// 如果使用的是 FileSystemXmlApplicationContext，那 this 就是 FileSystemXmlApplicationContext。
 		beanDefinitionReader.setResourceLoader(this);
 		// 设置实体解析器，传入一个资源实体解析器 ResourceEntityResolver。
 		beanDefinitionReader.setEntityResolver(new ResourceEntityResolver(this));
@@ -113,7 +114,7 @@ public abstract class AbstractXmlApplicationContext extends AbstractRefreshableC
 	 * @see org.springframework.beans.factory.xml.XmlBeanDefinitionReader#setDocumentReaderClass
 	 */
 	protected void initBeanDefinitionReader(XmlBeanDefinitionReader reader) {
-		System.out.println("--- 创建工厂 之 初始化 BeanDefinitionReader");
+		System.out.println("--- 创建工厂 之 初始化 BeanDefinition读取器   XmlBeanDefinitionReader");
 		reader.setValidating(this.validating);
 	}
 
@@ -130,7 +131,7 @@ public abstract class AbstractXmlApplicationContext extends AbstractRefreshableC
 	 * @see #getResourcePatternResolver
 	 */
 	protected void loadBeanDefinitions(XmlBeanDefinitionReader reader) throws BeansException, IOException {
-		System.out.println("--- 创建工厂 之 加载 BeanDefinitionReader （AbstractXmlApplicationContext.loadBeanDefinitions(XmlBeanDefinitionReader)）");
+		System.out.println("--- 创建工厂 之 加载 BeanDefinition （AbstractXmlApplicationContext.loadBeanDefinitions(XmlBeanDefinitionReader)）");
 		Resource[] configResources = getConfigResources(); // 这里返回 null。
 		if (configResources != null) {
 			reader.loadBeanDefinitions(configResources);

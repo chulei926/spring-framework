@@ -15,6 +15,12 @@ public class UserFactoryBean implements FactoryBean<User> {
 		return User.class;
 	}
 
+	/**
+	 * 是否是单例？
+	 * true：单例，在容器中只保留一份
+	 * false：非单例，每次获取的时候重新创建一个新的 bean。就是调用上面的 getObject()方法进行创建。
+	 * @return
+	 */
 	@Override
 	public boolean isSingleton() {
 		return true;

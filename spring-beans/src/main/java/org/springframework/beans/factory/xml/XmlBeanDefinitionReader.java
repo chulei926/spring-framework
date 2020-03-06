@@ -139,6 +139,7 @@ public class XmlBeanDefinitionReader extends AbstractBeanDefinitionReader {
 	 */
 	public XmlBeanDefinitionReader(BeanDefinitionRegistry registry) {
 		super(registry);
+		System.out.println("--- 创建工厂 之 创建  BeanDefinition读取器   XmlBeanDefinitionReader");
 	}
 
 
@@ -326,15 +327,15 @@ public class XmlBeanDefinitionReader extends AbstractBeanDefinitionReader {
 			this.resourcesCurrentlyBeingLoaded.set(currentResources);
 		}
 		/**
-		 * 在解析Resource之前，Spring会将此Resource存储于当前线程的局部变量ThreadLocal<Set<EncodedResource>> resourcesCurrentlyBeingLoaded中；
-		 * 在解析之后会将Resource从resourcesCurrentlyBeingLoaded移除。
+		 * 在解析 Resource 之前，Spring 会将此 Resource 存储于当前线程的局部变量 ThreadLocal<Set<EncodedResource>> resourcesCurrentlyBeingLoaded中；
+		 * 在解析之后会将 Resource 从 resourcesCurrentlyBeingLoaded 移除。
 		 * 但这个操作的目的是什么呢？
 		 * 从两方面来分析：
-		 * 1. 利用Set结构防止重复解析，注意看 标注1 处的代码，我们知道Set内元素唯一，如果已经将同一个Resource多次添加至Set中时，除了第一次之外其余都不会添加成功的；
+		 * 1. 利用Set结构防止重复解析，注意看 标注1 处的代码，我们知道 Set 内元素唯一，如果已经将同一个 Resource 多次添加至Set中时，除了第一次之外其余都不会添加成功的；
 		 * 2. 利用ThreadLocal确保线程安全。
 		 *    虽然第一步通过Set防止了重复解析，但前提是单线程情况下；
-		 *    如果此方法被多线程调用时，那么还是会有几率出现一个Resource被多次解析；
-		 *    传统的解决方式是使用synchronized进行同步，但加锁会导致解析效率低下，所以此处将其放置于ThreadLocal对象中，确保每个线程只能访问自己的Set，
+		 *    如果此方法被多线程调用时，那么还是会有几率出现一个 Resource 被多次解析；
+		 *    传统的解决方式是使用 synchronized 进行同步，但加锁会导致解析效率低下，所以此处将其放置于 ThreadLocal 对象中，确保每个线程只能访问自己的 Set，
 		 *    从而既保证了性能，又解决了线程不安全的问题.
 		 *
 		 */

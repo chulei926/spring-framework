@@ -6,6 +6,7 @@ import org.springframework.context.ApplicationContext;
 import org.springframework.context.ApplicationContextAware;
 
 import javax.annotation.PostConstruct;
+import javax.annotation.PreDestroy;
 
 public class User implements BeanNameAware, BeanFactoryAware, ApplicationContextAware, InitializingBean, DisposableBean {
 
@@ -53,6 +54,11 @@ public class User implements BeanNameAware, BeanFactoryAware, ApplicationContext
 
 	public void myInit() {
 		System.out.println("User ---------> 初始化bean -------> myInit 执行");
+	}
+
+	@PreDestroy
+	public void preDestroy(){
+		System.out.println("User ---------> 销毁bean -------> preDestroy 执行");
 	}
 
 	public void myDestroy() {
