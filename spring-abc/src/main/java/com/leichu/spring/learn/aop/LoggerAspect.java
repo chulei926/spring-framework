@@ -1,6 +1,7 @@
 package com.leichu.spring.learn.aop;
 
 import org.aspectj.lang.JoinPoint;
+import org.aspectj.lang.ProceedingJoinPoint;
 import org.aspectj.lang.annotation.*;
 
 import java.util.Arrays;
@@ -44,7 +45,16 @@ public class LoggerAspect {
 	@AfterThrowing(value = "pointCut()", throwing = "exception")
 	public void logException(JoinPoint joinPoint,Exception exception) {
 		System.out.println(joinPoint.getSignature().getName() + " 方法异常，异常信息如下：");
-		System.out.println(exception);
+		exception.printStackTrace();
+	}
+
+	@Around(value = "pointCut()")
+	public Object around(ProceedingJoinPoint joinPoint) throws Throwable {
+		System.out.println("Around start >>>>>>");
+		Object obj = joinPoint.proceed();
+		System.out.println(obj);
+		System.out.println("Around end >>>>>>");
+		return obj;
 	}
 
 }

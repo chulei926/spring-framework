@@ -20,6 +20,10 @@ import org.springframework.beans.BeansException;
 import org.springframework.lang.Nullable;
 
 /**
+ * Bean的后置处理器。
+ * <pre>
+ *     作用：在 Bean 的初始化前后对 Bean 进行其他的处理。
+ * </pre>
  * Factory hook that allows for custom modification of new bean instances &mdash;
  * for example, checking for marker interfaces or wrapping beans with proxies.
  *

@@ -269,6 +269,8 @@ final class PostProcessorRegistrationDelegate {
 				}
 			} else if (beanFactory.isTypeMatch(ppName, Ordered.class)) {
 				// 4.3 如果 ppName 对应的 Bean 实例没有实现 PriorityOrdered 接口，但是实现了 Ordered 接口，则将 ppName 添加到 orderedPostProcessorNames
+				// 注意 org.springframework.aop.config.internalAutoProxyCreator AOP 自动代理创建器 实现了 Ordered 接口
+				// 也就是说 AOP 的 AnnotationAwareAspectJAutoProxyCreator 就是在此处注入到容器的。
 				orderedPostProcessorNames.add(ppName);
 			} else {
 				// 4.4 否则，将 ppName 添加到 nonOrderedPostProcessorNames

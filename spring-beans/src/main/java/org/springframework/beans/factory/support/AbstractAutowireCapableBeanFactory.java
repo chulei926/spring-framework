@@ -486,6 +486,17 @@ public abstract class AbstractAutowireCapableBeanFactory extends AbstractBeanFac
 	}
 
 	/**
+	 * 核心：
+	 * <pre>
+	 *     BeanWrapper instanceWrapper = createBeanInstance(beanName, mbd, args); // 创建 对象
+	 *     populateBean(beanName, mbd, instanceWrapper);
+	 *          ---> applyBeanPostProcessorsBeforeInitialization(wrappedBean, beanName);
+	 *          ---> invokeInitMethods(beanName, wrappedBean, mbd);
+	 *          ---> applyBeanPostProcessorsAfterInitialization(wrappedBean, beanName);
+	 *     initializeBean(beanName, exposedObject, mbd);
+	 *
+	 * </pre>
+	 *
 	 * Actually create the specified bean. Pre-creation processing has already happened
 	 * at this point, e.g. checking {@code postProcessBeforeInstantiation} callbacks.
 	 * <p>Differentiates between default bean instantiation, use of a
@@ -533,9 +544,9 @@ public abstract class AbstractAutowireCapableBeanFactory extends AbstractBeanFac
 		// even when triggered by lifecycle interfaces like BeanFactoryAware.
 		boolean earlySingletonExposure = (mbd.isSingleton() && this.allowCircularReferences && isSingletonCurrentlyInCreation(beanName));
 		if (earlySingletonExposure) {
-			if (logger.isTraceEnabled()) {
-				logger.trace("Eagerly caching bean '" + beanName + "' to allow for resolving potential circular references");
-			}
+//			if (logger.isTraceEnabled()) {
+//				logger.trace("Eagerly caching bean '" + beanName + "' to allow for resolving potential circular references");
+//			}
 			addSingletonFactory(beanName, () -> getEarlyBeanReference(beanName, mbd, bean));
 		}
 
@@ -1704,6 +1715,12 @@ public abstract class AbstractAutowireCapableBeanFactory extends AbstractBeanFac
 
 	/**
 	 * 初始化 bean 的实例，调用初始化方法，执行 BeanPostProcessor 后置处理器.<br/>
+	 * <pre>
+	 * 核心：
+	 *     applyBeanPostProcessorsBeforeInitialization(wrappedBean, beanName);
+	 *     invokeInitMethods(beanName, wrappedBean, mbd);
+	 *     applyBeanPostProcessorsAfterInitialization(wrappedBean, beanName);
+	 * </pre>
 	 * <p>
 	 * Initialize the given bean instance, applying factory callbacks
 	 * as well as init methods and bean post processors.

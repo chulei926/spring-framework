@@ -555,6 +555,7 @@ public abstract class AbstractApplicationContext extends DefaultResourceLoader
 			/**
 			 * 获取一个新的 beanFactory。为什么？
 			 * 因为要对 beanFactory 进行配置。
+			 * 注：beanFactory 创建完成之后， beanDefinition 已经注册到 beanFactory 中.
 			 */
 			ConfigurableListableBeanFactory beanFactory = obtainFreshBeanFactory();
 			/**
@@ -594,9 +595,7 @@ public abstract class AbstractApplicationContext extends DefaultResourceLoader
 				invokeBeanFactoryPostProcessors(beanFactory); // TODO leichu
 
 				// Register bean processors that intercept bean creation.
-				/**
-				 * 注册所有的 BeanPostProcessors.
-				 */
+				// 注册所有的 BeanPostProcessors.
 				registerBeanPostProcessors(beanFactory);
 
 				// Initialize message source for this context.
