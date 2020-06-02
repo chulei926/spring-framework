@@ -799,9 +799,9 @@ public class DefaultListableBeanFactory extends AbstractAutowireCapableBeanFacto
 	public BeanDefinition getBeanDefinition(String beanName) throws NoSuchBeanDefinitionException {
 		BeanDefinition bd = this.beanDefinitionMap.get(beanName);
 		if (bd == null) {
-			if (logger.isTraceEnabled()) {
-				logger.trace("No bean named '" + beanName + "' found in " + this);
-			}
+//			if (logger.isTraceEnabled()) {
+//				logger.trace("No bean named '" + beanName + "' found in " + this);
+//			}
 			throw new NoSuchBeanDefinitionException(beanName);
 		}
 		return bd;
@@ -856,7 +856,7 @@ public class DefaultListableBeanFactory extends AbstractAutowireCapableBeanFacto
 		// 遍历所有的 beanName
 		// 通过 getBean(beanName) 方法，将所有的 bean 创建一遍。
 		for (String beanName : beanNames) {
-			// 从 mergedBeanDefinitions map 中获取 BeanDefinition，获取不到再从 beanDefinitionMap 中获取。
+			// 从 mergedBeanDefinitions map 中获取 RootBeanDefinition，获取不到再从 beanDefinitionMap 中获取。
 			RootBeanDefinition bd = getMergedLocalBeanDefinition(beanName);
 			if (!bd.isAbstract() && bd.isSingleton() && !bd.isLazyInit()) { // // 非抽象、非懒加载、非单例
 				// FactoryBean 和 BeanFactory 有什么区别？

@@ -8,6 +8,7 @@ public class BeanTest4XML {
 
 	public static void main(String[] args) {
 		ClassPathXmlApplicationContext ctx = new ClassPathXmlApplicationContext("beans.xml");
+
 //		User user = ctx.getBean(User.class);
 //		System.out.println(user);
 		ctx.close();

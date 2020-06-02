@@ -9,8 +9,8 @@ public class MyBatisTest {
 	public static void main(String[] args) {
 
 		AnnotationConfigApplicationContext ctx = new AnnotationConfigApplicationContext(MainConfig.class);
-
-		ctx.getBean(UserService.class).getList();
+		UserService userService = ctx.getBean(UserService.class);
+		System.out.println(userService.getList());
 
 		ctx.close();
 	}

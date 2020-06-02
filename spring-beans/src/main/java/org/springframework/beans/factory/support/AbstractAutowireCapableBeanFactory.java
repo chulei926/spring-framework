@@ -429,7 +429,8 @@ public abstract class AbstractAutowireCapableBeanFactory extends AbstractBeanFac
 	//---------------------------------------------------------------------
 
 	/**
-	 * 创建 bean <br/>
+	 * 创建 bean 实例。
+	 * <p>
 	 * Central method of this class: creates a bean instance,
 	 * populates the bean instance, applies post-processors, etc.
 	 *
@@ -461,7 +462,9 @@ public abstract class AbstractAutowireCapableBeanFactory extends AbstractBeanFac
 
 		try {
 			// Give BeanPostProcessors a chance to return a proxy instead of the target bean instance.
-			// 执行实现了 InstantiationAwareBeanPostProcessor 接口的子类的方法。
+			// 在实例化之前 执行实现了 InstantiationAwareBeanPostProcessor 接口的子类的方法。
+			// applyBeanPostProcessorsBeforeInstantiation
+			// applyBeanPostProcessorsAfterInitialization
 			Object bean = resolveBeforeInstantiation(beanName, mbdToUse);
 			if (bean != null) {
 				return bean;
@@ -486,17 +489,18 @@ public abstract class AbstractAutowireCapableBeanFactory extends AbstractBeanFac
 	}
 
 	/**
-	 * 核心：
+	 * <b>正式的 开始 创建 bean 实例。</b>核心过程 如下：
 	 * <pre>
-	 *     BeanWrapper instanceWrapper = createBeanInstance(beanName, mbd, args); // 创建 对象
-	 *     populateBean(beanName, mbd, instanceWrapper);
+	 *     BeanWrapper instanceWrapper = createBeanInstance(beanName, mbd, args); // step.1 创建 对象，分配内存
+	 *     populateBean(beanName, mbd, instanceWrapper); // step.2 属性赋值
 	 *          ---> applyBeanPostProcessorsBeforeInitialization(wrappedBean, beanName);
 	 *          ---> invokeInitMethods(beanName, wrappedBean, mbd);
 	 *          ---> applyBeanPostProcessorsAfterInitialization(wrappedBean, beanName);
-	 *     initializeBean(beanName, exposedObject, mbd);
-	 *
+	 *     initializeBean(beanName, exposedObject, mbd); // step.3 初始化 bean 实例
 	 * </pre>
+	 * <b>Spring Bean 的循环依赖 发生在 step.2 中。</b>
 	 *
+	 * <p>
 	 * Actually create the specified bean. Pre-creation processing has already happened
 	 * at this point, e.g. checking {@code postProcessBeforeInstantiation} callbacks.
 	 * <p>Differentiates between default bean instantiation, use of a
@@ -519,7 +523,8 @@ public abstract class AbstractAutowireCapableBeanFactory extends AbstractBeanFac
 			instanceWrapper = this.factoryBeanInstanceCache.remove(beanName);
 		}
 		if (instanceWrapper == null) {
-			instanceWrapper = createBeanInstance(beanName, mbd, args); // 创建 对象
+			// ☆ 创建 bean 对象，并将 bean 对象包裹在 BeanWrapper 对象中返回
+			instanceWrapper = createBeanInstance(beanName, mbd, args);
 		}
 		final Object bean = instanceWrapper.getWrappedInstance();
 		Class<?> beanType = instanceWrapper.getWrappedClass();
@@ -542,17 +547,24 @@ public abstract class AbstractAutowireCapableBeanFactory extends AbstractBeanFac
 
 		// Eagerly cache singletons to be able to resolve circular references
 		// even when triggered by lifecycle interfaces like BeanFactoryAware.
+
+		// earlySingletonExposure 用于表示是否“提前暴露”原始对象的引用，用于解决循环依赖。
+		// 对于单例 bean，该变量一般为 true。
 		boolean earlySingletonExposure = (mbd.isSingleton() && this.allowCircularReferences && isSingletonCurrentlyInCreation(beanName));
 		if (earlySingletonExposure) {
 //			if (logger.isTraceEnabled()) {
 //				logger.trace("Eagerly caching bean '" + beanName + "' to allow for resolving potential circular references");
 //			}
+			// 此时 bean 已经实例化完成，在内存中开辟的存储空间。
+			// ☆ 把已经实例化的 bean 放到 三级缓存 singletonFactories 中，提前暴露，用于解决循环依赖。
+			// 第二个参数的意义：当再次从 三级缓存 中获取 bean 时，如果存在，就会回调这个参数，用于获取 提前暴露 的 地址引用。
 			addSingletonFactory(beanName, () -> getEarlyBeanReference(beanName, mbd, bean));
 		}
 
 		// Initialize the bean instance.
 		Object exposedObject = bean;
 		try {
+			// 属性赋值
 			populateBean(beanName, mbd, instanceWrapper);
 			exposedObject = initializeBean(beanName, exposedObject, mbd);
 		} catch (Throwable ex) {
@@ -905,6 +917,11 @@ public abstract class AbstractAutowireCapableBeanFactory extends AbstractBeanFac
 	}
 
 	/**
+	 * 返回 bean 的早期引用。<br/>
+	 * 当前 bean 只是实例化成功，并没有完成 初始化 过程，此时只是一个 半成品。<br/>
+	 * 在别的 bean 依赖 该对象时，由于该对象已经实例化完成，在内存中分配了空间，所以可以先提前将 引用（内存地址） 暴露出去，供别的组件使用。<br/>
+	 * 以上通常用来解决循环依赖的问题。
+	 * <p>
 	 * Obtain a reference for early access to the specified bean,
 	 * typically for the purpose of resolving a circular reference.
 	 *
@@ -922,6 +939,9 @@ public abstract class AbstractAutowireCapableBeanFactory extends AbstractBeanFac
 					exposedObject = ibp.getEarlyBeanReference(exposedObject, beanName);
 				}
 			}
+		}
+		if ("a".equals(beanName) || "b".equals(beanName)) {
+			System.out.println(">>>>>>>>>> 获取 " + beanName + " 的提前引用 .");
 		}
 		return exposedObject;
 	}
@@ -1137,6 +1157,7 @@ public abstract class AbstractAutowireCapableBeanFactory extends AbstractBeanFac
 		}
 
 		if (mbd.getFactoryMethodName() != null) {
+			// 创建一个 构造器解析器 ，使用工厂方法 来 实例化类
 			return instantiateUsingFactoryMethod(beanName, mbd, args);
 		}
 
@@ -1296,7 +1317,7 @@ public abstract class AbstractAutowireCapableBeanFactory extends AbstractBeanFac
 	 * @see #getBean(String, Object[])
 	 */
 	protected BeanWrapper instantiateUsingFactoryMethod(String beanName, RootBeanDefinition mbd, @Nullable Object[] explicitArgs) {
-
+		// 创建一个 构造器解析器 ，使用工厂方法 来 实例化类
 		return new ConstructorResolver(this).instantiateUsingFactoryMethod(beanName, mbd, explicitArgs);
 	}
 
@@ -1330,6 +1351,9 @@ public abstract class AbstractAutowireCapableBeanFactory extends AbstractBeanFac
 	 */
 	@SuppressWarnings("deprecation")  // for postProcessPropertyValues
 	protected void populateBean(String beanName, RootBeanDefinition mbd, @Nullable BeanWrapper bw) {
+		if ("a".equals(beanName) || "b".equals(beanName)) {
+			System.out.println(">>>>>>>>>> 给当前对象： " + beanName + " 属性赋值 .");
+		}
 		if (bw == null) {
 			if (mbd.hasPropertyValues()) {
 				throw new BeanCreationException(mbd.getResourceDescription(), beanName, "Cannot apply property values to null instance");
@@ -1416,8 +1440,7 @@ public abstract class AbstractAutowireCapableBeanFactory extends AbstractBeanFac
 	 * @param bw       the BeanWrapper from which we can obtain information about the bean
 	 * @param pvs      the PropertyValues to register wired objects with
 	 */
-	protected void autowireByName(
-			String beanName, AbstractBeanDefinition mbd, BeanWrapper bw, MutablePropertyValues pvs) {
+	protected void autowireByName(String beanName, AbstractBeanDefinition mbd, BeanWrapper bw, MutablePropertyValues pvs) {
 
 		String[] propertyNames = unsatisfiedNonSimpleProperties(mbd, bw);
 		for (String propertyName : propertyNames) {

@@ -635,6 +635,7 @@ class ConstructorResolver {
 						this.beanFactory.getInstantiationStrategy().instantiate(mbd, beanName, this.beanFactory, factoryBean, factoryMethod, args),
 						this.beanFactory.getAccessControlContext());
 			} else {
+				// 默认 org.springframework.beans.factory.support.CglibSubclassingInstantiationStrategy
 				return this.beanFactory.getInstantiationStrategy().instantiate(mbd, beanName, this.beanFactory, factoryBean, factoryMethod, args);
 			}
 		} catch (Throwable ex) {
