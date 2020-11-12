@@ -7,6 +7,7 @@ import org.springframework.context.support.FileSystemXmlApplicationContext;
 public class BeanTest4XML {
 
 	public static void main(String[] args) {
+		System.out.println("开始");
 		ClassPathXmlApplicationContext ctx = new ClassPathXmlApplicationContext("beans.xml");
 
 //		User user = ctx.getBean(User.class);

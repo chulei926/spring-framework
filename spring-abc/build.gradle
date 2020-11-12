@@ -29,6 +29,7 @@ dependencies {
 	compile(project(":spring-context"))
 	compile(project(":spring-aop"))
 	compile(project(":spring-aspects"))
+	compile(project(":spring-web"))
 	compile(project(":spring-webmvc"))
 	// https://mvnrepository.com/artifact/org.mybatis/mybatis
 	compile group: 'org.mybatis', name: 'mybatis', version: '3.5.3'
@@ -52,10 +53,19 @@ dependencies {
 			"org.apache.tomcat.embed:tomcat-embed-logging-juli:9.0.0.M6",
 			"org.apache.tomcat.embed:tomcat-embed-jasper:${tomcatVersion}"
 }
+
+
+//  gradle tomcatRun
+// http://localhost:8080/spring-demo/demo/index?id=1
 // tomcat: 一些协议设置
 tomcat {
+
+	httpPort = 8080
+	contextPath = 'spring-demo'
+
 	httpProtocol = 'org.apache.coyote.http11.Http11Nio2Protocol'
 	ajpProtocol  = 'org.apache.coyote.ajp.AjpNio2Protocol'
+
 }
 
 // UTF-8
